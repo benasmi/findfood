@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.benas.findfood.LoginOrRegister"
+    android:background="#E43F3F">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Log In"
+        android:id="@+id/useless"
+        android:textSize="43dp"
+        android:layout_marginTop="89dp"
+        android:textColor="#e8afaf"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:textColorHint="#FFFFFF"
+        android:id="@+id/username_login"
+        android:layout_marginTop="43dp"
+        android:singleLine="true"
+        android:layout_below="@+id/useless"
+        android:background="@drawable/edit_borders"
+        android:layout_centerHorizontal="true"
+        android:hint="Username"
+        android:paddingStart="10dp"
+        android:textColor="#ffffff"
+        android:paddingRight="5dp"
+        android:maxLines="1" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:textColorHint="#FFFFFF"
+        android:layout_height="45dp"
+        android:singleLine="true"
+        android:id="@+id/password_login"
+        android:hint="Password"
+        android:background="@drawable/edit_borders"
+        android:password="true"
+        android:layout_below="@+id/username_login"
+        android:layout_alignStart="@+id/username_login"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:textColor="#ffffff"
+        android:paddingRight="5dp"
+        android:maxLines="1" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/login"
+        android:onClick="login"
+        android:background="@drawable/button_borders_red"
+        android:layout_below="@+id/password_login"
+        android:layout_alignStart="@+id/password_login"
+        android:layout_marginTop="40dp"
+        android:layout_alignEnd="@+id/password_login"
+        android:textSize="17dp"
+        android:alpha="0.85"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Don't have an account? Click here!"
+        android:id="@+id/register"
+        android:onClick="register"
+        android:textSize="20dp"
+        android:layout_marginTop="38dp"
+        android:textColor="#e99a9a"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remember my password"
+        android:id="@+id/remember_my_password"
+        android:layout_below="@+id/password_login"
+        android:layout_alignStart="@+id/password_login"
+        android:checked="false"
+        android:textColor="#ffffff"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Forgot username or password?"
+        android:id="@+id/forgotInfo"
+        android:onClick="forgotInfo"
+        android:textSize="17dp"
+        android:textColor="#d48c8c"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/register"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

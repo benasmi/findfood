@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.benas.findfood.StartingPage"
+    android:background="#E43F3F">
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:text="Find Food!"
+        android:id="@+id/find"
+        android:onClick="findFood"
+        android:textSize="25dp"
+        android:background="@drawable/button_borders_red"
+        android:alpha="0.85"
+        android:textColor="#ffffff"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:text="Truck Owner ?"
+        android:id="@+id/loginOrRegister"
+        android:onClick="loginOrRegister"
+        android:textSize="25dp"
+        android:background="@drawable/button_borders_red"
+        android:alpha="0.85"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/find"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Food"
+        android:id="@+id/logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:textColor="#ffffff"
+        android:textSize="60dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="...we know you want it..."
+        android:id="@+id/phrase"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>
