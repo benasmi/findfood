@@ -12,11 +12,12 @@ public class InfoHolder {
     String username;
     int markerId;
 
-    public InfoHolder(MarkerOptions marker, String username, int markerId){
-        this.marker =marker;
+    public InfoHolder(MarkerOptions marker, String username, int markerId) {
+        this.marker = marker;
         this.username = username;
         this.markerId = markerId;
     }
+
     public String getUsername() {
         return username;
     }

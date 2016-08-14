@@ -24,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
@@ -41,7 +42,7 @@ import java.net.HttpURLConnection;
 public class AlreadyLoggedIn extends AppCompatActivity {
 
 
-
+    //Profile widgets
     private EditText profile_mail;
     private EditText profile_phone_number;
     private EditText profile_description;
@@ -63,6 +64,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     private EditText profile_website;
     private ImageView profile_logout;
 
+    //Background photos
     private JSONArray jsonArrayExtBackground;
     private JSONObject jsonObjectExtBackground;
 
@@ -77,11 +79,13 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     private ImageView drink_marker;
     private ImageView burger_marker;
     private int whichMarker;
+
+    //Crediantials from sharedPreferences
     private String username;
     private String password;
-    private Cache memoryCache;
 
-    public AlreadyLoggedIn(){
+
+    public AlreadyLoggedIn() {
 
     }
 
@@ -92,7 +96,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_already_logged_in);
 
-
+        //Initializing widgets
         profile_special_offers = (EditText) findViewById(R.id.profile_special_offers);
         profile_mail = (EditText) findViewById(R.id.profile_mail);
         profile_description = (EditText) findViewById(R.id.profile_description);
@@ -112,8 +116,6 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         profile_background_photo = (ImageView) findViewById(R.id.background_picture);
         profile_logout = (ImageView) findViewById(R.id.profile_logout);
 
-        //420
-        memoryCache = new Cache(((int)Runtime.getRuntime().maxMemory()/1024));
 
         //Markers
         butcher_marker = (ImageView) findViewById(R.id.butcher_marker);
@@ -122,29 +124,20 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         drink_marker = (ImageView) findViewById(R.id.drink_marker);
         sandwich_marker = (ImageView) findViewById(R.id.sandwitch_marker);
 
-
+        //Getting login crediantials from sharedPrefs.
         sharedPreferences = getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
 
         new FetchUserData(username).execute();
 
-
+        //Starting background photo picker intent
         profile_background_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!isNetworkAvailable()) {
-                    new AlertDialog.Builder(AlreadyLoggedIn.this)
-                            .setMessage("You need internet connection to do that")
-                            .setPositiveButton("UNDERSTOOD", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
+                if (!CheckingUtils.isNetworkConnected(AlreadyLoggedIn.this)) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that", AlreadyLoggedIn.this);
                     return;
                 } else {
                     Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -156,24 +149,15 @@ public class AlreadyLoggedIn extends AppCompatActivity {
             }
         });
 
+        //Starting menu photo picker intent
         profile_menu_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(!isNetworkAvailable()){
-                    new AlertDialog.Builder(AlreadyLoggedIn.this)
-                            .setMessage("You need internet connection to do that")
-                            .setPositiveButton("UNDERSTOOD", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
+                if (!CheckingUtils.isNetworkConnected(AlreadyLoggedIn.this)) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that", AlreadyLoggedIn.this);
                     return;
-                }else {
+                } else {
                     Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                     photoPickerIntent.setType("image/*");
                     startActivityForResult(photoPickerIntent, 2);
@@ -182,6 +166,8 @@ public class AlreadyLoggedIn extends AppCompatActivity {
             }
         });
 
+
+        //Logout method --- > will be refractored
         profile_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,64 +201,32 @@ public class AlreadyLoggedIn extends AppCompatActivity {
             }
         });
 
+
+        //Changing isWorking status --- > will be refractored
         is_working.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (profile_slogan.getText().toString().isEmpty() && isChecked){
-//                    profile_slogan.setError("Create slogan to change work status");
-//                    is_working.setChecked(false);
-//                    return;
-//                }
-//                if (profile_truck_names.getText().toString().isEmpty() && isChecked){
-//                    profile_truck_names.setError("Create truck name to change work status");
-//                    is_working.setChecked(false);
-//                    return;
-//                }
-                    if (!isNetworkAvailable()) {
-                        is_working.setChecked(false);
-                        new AlertDialog.Builder(AlreadyLoggedIn.this)
-                                .setMessage("You need internet connection to do that")
-                                .setPositiveButton("UNDERSTOOD", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
+                if (!CheckingUtils.isNetworkConnected(AlreadyLoggedIn.this)) {
+                    is_working.setChecked(false);
+                    CheckingUtils.createErrorBox("You need internet connection to do that", AlreadyLoggedIn.this);
 
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-
-                        return;
-                    } else {
-                        new AlertDialog.Builder(AlreadyLoggedIn.this)
-                                .setMessage("Don't forget to change status, after you finish your work")
-                                .setPositiveButton("UNDERSTOOD", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        new ServerManager(AlreadyLoggedIn.this, "CHANGE_IS_WORKING").execute("CHANGE_IS_WORKING", is_working.isChecked() ? "1" : "0", username, password);
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                            .show();
+                    return;
+                } else {
+                    CheckingUtils.createErrorBox("Don't forget to change status, after you finish your work", AlreadyLoggedIn.this);
+                    new ServerManager(AlreadyLoggedIn.this).execute("CHANGE_IS_WORKING", is_working.isChecked() ? "1" : "0", username, password);
                 }
-
-
-
-
 
             }
         });
 
 
-
-
     }
 
-
+    //Getting intent picker request code and starting Server Manager(Setting background and menu photos)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1){
+        if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri selectedImage = data.getData();
                 String filePath = getPath(selectedImage);
@@ -287,7 +241,8 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                     //NOT IN REQUIRED FORMAT
                 }
             }
-        }if (requestCode == 2){
+        }
+        if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
 
 
@@ -298,7 +253,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("png")) {
                     final String username = sharedPreferences.getString("username", null);
                     final String password = sharedPreferences.getString("password", null);
-                    new ServerManager(AlreadyLoggedIn.this,this, "UPDATE_MENU_PICTURE").execute("UPDATE_MENU_PICTURE", username, password, filePath);
+                    new ServerManager(AlreadyLoggedIn.this, this, "UPDATE_MENU_PICTURE").execute("UPDATE_MENU_PICTURE", username, password, filePath);
 
 
                 } else {
@@ -308,42 +263,10 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         }
 
 
-
-
-
-    }
-    private Bitmap scaleBitmap(Bitmap bm) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-
-        int maxWidth = 1920;
-        int maxHeight = 1080;
-        Log.v("Pictures", "Width and height are " + width + "--" + height);
-
-        if (width > height) {
-            // landscape
-            float ratio = (float) width / maxWidth;
-            width = maxWidth;
-            height = (int)(height / ratio);
-        } else if (height > width) {
-            // portrait
-            float ratio = (float) height / maxHeight;
-            height = maxHeight;
-            width = (int)(width / ratio);
-        } else {
-            // square
-            height = maxHeight;
-            width = maxWidth;
-        }
-
-        Log.v("Pictures", "after scaling Width and height are " + width + "--" + height);
-
-        bm = Bitmap.createScaledBitmap(bm, width, height, true);
-        return bm;
     }
 
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.MediaColumns.DATA };
+        String[] projection = {MediaStore.MediaColumns.DATA};
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         int column_index = cursor
                 .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
@@ -352,17 +275,11 @@ public class AlreadyLoggedIn extends AppCompatActivity {
 
         return cursor.getString(column_index);
     }
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
-    }
 
 
-
+    //Updating already_logged_in info and inserting new info into user table
     public void save(View view) {
-
+        //User table info
         String offers = profile_special_offers.getText().toString();
         String mail = profile_mail.getText().toString();
         String description = profile_description.getText().toString();
@@ -373,7 +290,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         final String username = sharedPreferences.getString("username", null);
         final String password = sharedPreferences.getString("password", null);
 
-        //Other table
+        //Schedule table info
         String monday = profile_monday.getText().toString();
         String tuesday = profile_tuesday.getText().toString();
         String wednesday = profile_wednesday.getText().toString();
@@ -383,104 +300,64 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         String sunday = profile_sunday.getText().toString();
 
 
-        if (description.isEmpty() ){
+        if (description.isEmpty()) {
             profile_description.setError("Fill this field to save");
             return;
         }
-        if( slogan.isEmpty() ){
+        if (slogan.isEmpty()) {
             profile_slogan.setError("Fill this field to save");
             return;
         }
-        if(truck_name.isEmpty()) {
+        if (truck_name.isEmpty()) {
             profile_truck_names.setError("Fill this field to save");
             return;
         }
 
-        new ServerManager(this, "UPDATE PROFILE").execute("UPDATE PROFILE", mail,username, password, is_working.isChecked() ? "1" : "0",
-                description, website, number, offers, slogan, truck_name,monday,tuesday,wednesday,thursday,friday, saturday, sunday, String.valueOf(whichImage));
+
+        new ServerManager(this).execute("UPDATE PROFILE", mail, username, password, is_working.isChecked() ? "1" : "0",
+                description, website, number, offers, slogan, truck_name, monday, tuesday, wednesday, thursday, friday, saturday, sunday, String.valueOf(whichImage));
 
     }
 
 
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-    public void startBackgroundfetching(){
+    //Method to use in Server Manager
+    public void startBackgroundfetching() {
         new fetchBackgroundPhoto(username).execute();
 
     }
-    public void startMenufetching(){
+
+    public void startMenufetching() {
         new fetchMenuPhoto(username).execute();
     }
+    //----------------------------//
 
 
+    //Updating location
     public void updateLocation(View view) {
-
-
-
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        if(enabled) {
-            if(!isNetworkAvailable()){
+        if (enabled) {
+            if (!CheckingUtils.isNetworkConnected(this)) {
                 is_working.setChecked(false);
-                new AlertDialog.Builder(AlreadyLoggedIn.this)
-                        .setMessage("You need internet connection to do that")
-                        .setPositiveButton("UNDERSTOOD", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-
+                CheckingUtils.createErrorBox("You need internet connection to do that", this);
                 return;
             }
 
             final double longtitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLongitude();
             final double latitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
 
-            new AlertDialog.Builder(AlreadyLoggedIn.this)
-                    .setMessage("If you click 'YES', you agree that your location will be accessible to other users  ")
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            new ServerManager(AlreadyLoggedIn.this, "SEND CORDINATES").execute("SEND CORDINATES", String.valueOf(longtitude), String.valueOf(latitude),
-                                    sharedPreferences.getString("username", null), sharedPreferences.getString("password", null));
-
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }else{
-            buildAlertMessageNoGps();
+            CheckingUtils.createErrorBox("Your location was updated", AlreadyLoggedIn.this);
+            new ServerManager(AlreadyLoggedIn.this).execute("SEND CORDINATES", String.valueOf(longtitude), String.valueOf(latitude),
+                    sharedPreferences.getString("username", null), sharedPreferences.getString("password", null));
+        } else {
+            CheckingUtils.buildAlertMessageNoGps("Your GPS seems disabled, do you want to enable it?", AlreadyLoggedIn.this);
         }
 
 
     }
 
+    //Setting markers
     public void butcher_marker(View view) {
         candy_marker.setBackground(null);
         burger_marker.setBackground(null);
@@ -526,9 +403,9 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         whichImage = 4;
 
     }
+    //-------------------------------------------//
 
-
-    class FetchUserData extends AsyncTask<Void, Void, Void>{
+    class FetchUserData extends AsyncTask<Void, Void, Void> {
 
         private Bitmap profile_pic;
         private Bitmap menu_pic;
@@ -538,9 +415,10 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         private JSONArray jsonArray;
         private JSONObject userSchedule;
 
-        public  FetchUserData(String username){
+        public FetchUserData(String username) {
             this.username = username;
         }
+
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(AlreadyLoggedIn.this);
@@ -597,7 +475,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 String username = sharedPreferences.getString("username", null);
 
                 String link_background_photo = "http://64.137.182.232/pictures/" + username + "." + userInfo.getString("ext_profile");
-                String link_menu_photo= "http://64.137.182.232/pictures/" + username +"_menu." + userInfo.getString("ext_menu");
+                String link_menu_photo = "http://64.137.182.232/pictures/" + username + "_menu." + userInfo.getString("ext_menu");
 
                 Log.i("TEST", link_background_photo);
                 Log.i("TEST", link_menu_photo);
@@ -608,12 +486,9 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 Log.i("TEST", "Username" + username + " background_photo " + link_background_photo + " menu photo" + link_menu_photo);
 
 
-
             } catch (Exception e) {
 
             }
-
-
 
 
             return null;
@@ -640,7 +515,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 whichImage = Integer.parseInt(userInfo.getString("marker_icon"));
 
 
-                switch (whichImage){
+                switch (whichImage) {
                     case 0:
                         candy_marker.setBackground(null);
                         burger_marker.setBackground(null);
@@ -688,7 +563,6 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 profile_sunday.setText(userSchedule.getString("sunday"));
 
 
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -717,7 +591,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return scaleBitmap(myBitmap);
+                return CheckingUtils.scaleBitmap(myBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -761,7 +635,6 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 profile_pic = getBitmapFromURL(link_background_photo);
 
 
-
             } catch (Exception e) {
 
             }
@@ -788,11 +661,6 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     class fetchMenuPhoto extends AsyncTask<Void, Void, Void> {
 
         private String username;
@@ -812,7 +680,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return scaleBitmap(myBitmap);
+                return CheckingUtils.scaleBitmap(myBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -849,12 +717,11 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
 
-                String link_menu_photo= "http://64.137.182.232/pictures/" + username +"_menu." + jsonObjectExtMenu.getString("ext_menu");
+                String link_menu_photo = "http://64.137.182.232/pictures/" + username + "_menu." + jsonObjectExtMenu.getString("ext_menu");
                 Log.i("TEST", link_menu_photo);
 
 
                 profile_pic = getBitmapFromURL(link_menu_photo);
-
 
 
             } catch (Exception e) {
@@ -881,8 +748,6 @@ public class AlreadyLoggedIn extends AppCompatActivity {
             super.onPreExecute();
         }
     }
-
-
 
 
 }

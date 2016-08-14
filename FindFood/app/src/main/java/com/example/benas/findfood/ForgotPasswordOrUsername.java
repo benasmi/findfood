@@ -31,11 +31,11 @@ public class ForgotPasswordOrUsername extends AppCompatActivity {
 
     public void recoverPass(View view) {
         String email = mail.getText().toString();
-        if(mail.equals("")) {
+        if (mail.equals("")) {
             return;
         }
 
-        new ServerManager(this, "RECOVERY").execute("RECOVERY", email);
+        new ServerManager(this).execute("RECOVERY", email);
 
 
     }

@@ -21,4 +21,16 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+
+    <style name="MyAlertDialogStyle" parent="Base.V7.Theme.AppCompat.Dialog">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#d9d9d9</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <!-- Used for the background -->
+        <item name="android:background">#B53021</item>
+    </style>
+
+
+
 </resources>

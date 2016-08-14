@@ -10,12 +10,12 @@ import com.google.android.gms.maps.model.Marker;
 /**
  * Created by Benas on 5/26/2016.
  */
-public class InfoWindowClass implements GoogleMap.InfoWindowAdapter  {
+public class InfoWindowClass implements GoogleMap.InfoWindowAdapter {
 
     private View view;
 
-    public InfoWindowClass(View view){
-        this.view=view;
+    public InfoWindowClass(View view) {
+        this.view = view;
     }
 
 

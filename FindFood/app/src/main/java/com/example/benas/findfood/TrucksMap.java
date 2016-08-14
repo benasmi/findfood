@@ -49,6 +49,7 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
     private double myLongtitude;
     private double myLatitude;
     private ArrayList<InfoHolder> markerList = new ArrayList<InfoHolder>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,31 +64,6 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
 
 
     }
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
-    }
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("You need GPS to do it, do you want to turn it on?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-
 
 
     @Override
@@ -98,47 +74,37 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);;
+                LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                ;
                 boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                if(enabled){
+                if (enabled) {
                     return false;
-                }else{
-                    buildAlertMessageNoGps();
+                } else {
+                    CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to turn it on?", TrucksMap.this);
                 }
                 return false;
-
 
 
             }
         });
 
 
-        if(mMap!=null){
-            View view = getLayoutInflater().inflate(R.layout.marker_info,null);
+        if (mMap != null) {
+            View view = getLayoutInflater().inflate(R.layout.marker_info, null);
             mMap.setInfoWindowAdapter(new InfoWindowClass(view));
         }
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if(!isNetworkAvailable()){
-                    new AlertDialog.Builder(TrucksMap.this)
-                            .setMessage("You need internet connection to do that")
-                            .setPositiveButton("UNDERSTOOD", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
-
+                if (!CheckingUtils.isNetworkConnected(TrucksMap.this)) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that", TrucksMap.this);
                     return;
-                }else{
+                } else {
                     Intent i = new Intent(TrucksMap.this, ProfileActivity.class);
-                    for(int z = 0; z<markerList.size(); z++) {
+                    for (int z = 0; z < markerList.size(); z++) {
                         String truck = markerList.get(z).getMarker().getTitle();
-                        if(marker.getTitle().equals(truck)){
+                        if (marker.getTitle().equals(truck)) {
                             i.putExtra("username", markerList.get(z).getUsername());
                             break;
                         }
@@ -152,10 +118,6 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         });
-
-
-
-
 
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -195,7 +157,7 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
 
                 isFinished = true;
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -207,7 +169,7 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
             super.onPostExecute(aVoid);
             try {
 
-                if(isFinished) {
+                if (isFinished) {
 
 
                     for (int i = 0; i < array.length(); i++) {
@@ -223,18 +185,18 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
                             final int marker_icon = Integer.parseInt(object.getString("marker_icon"));
                             Log.i("TEST", String.valueOf(marker_icon));
 
-                            switch (marker_icon){
+                            switch (marker_icon) {
                                 case 0:
                                     markerList.add(new InfoHolder(new MarkerOptions().position(truckCoords).title(truck_name).snippet(slogan).icon(BitmapDescriptorFactory.fromResource(R.drawable.butcher_marker)), username, 0));
-                                break;
+                                    break;
 
                                 case 1:
                                     markerList.add(new InfoHolder(new MarkerOptions().position(truckCoords).title(truck_name).snippet(slogan).icon(BitmapDescriptorFactory.fromResource(R.drawable.sandwich_marker)), username, 0));
-                                break;
+                                    break;
 
                                 case 2:
                                     markerList.add(new InfoHolder(new MarkerOptions().position(truckCoords).title(truck_name).snippet(slogan).icon(BitmapDescriptorFactory.fromResource(R.drawable.burger_marker)), username, 0));
-                                break;
+                                    break;
 
                                 case 3:
                                     markerList.add(new InfoHolder(new MarkerOptions().position(truckCoords).title(truck_name).snippet(slogan).icon(BitmapDescriptorFactory.fromResource(R.drawable.candy_marker)), username, 0));
@@ -244,7 +206,6 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
                                     markerList.add(new InfoHolder(new MarkerOptions().position(truckCoords).title(truck_name).snippet(slogan).icon(BitmapDescriptorFactory.fromResource(R.drawable.drink_marker)), username, 0));
                                     break;
                             }
-
 
 
                             mMap.addMarker(markerList.get(i).getMarker());
@@ -261,7 +222,7 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
 
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

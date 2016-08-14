@@ -3,6 +3,7 @@ package com.example.benas.findfood;
 /**
  * Created by Benas on 5/16/2016.
  */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,6 +17,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
@@ -45,19 +47,13 @@ import java.util.ArrayList;
 /**
  * Created by Benas on 4/24/2016.
  */
- public class ServerManager extends AsyncTask<String, Void, Void> {
-    private String TAG = "TEST";
+public class ServerManager extends AsyncTask<String, Void, Void> {
+
     private int echo_result;
-
-
-
-
 
     //Registering
     private String register_username = null;
     private String register_password = null;
-    private String phone_number = null;
-    private String truck_name = null;
     private String mail = null;
 
     //Logging in
@@ -68,25 +64,23 @@ import java.util.ArrayList;
     private double longtitude;
     private double latitude;
 
-    private AlreadyLoggedIn alreadyLoggedIn;
 
+    private AlreadyLoggedIn alreadyLoggedIn;
     private String method;
-    private String progress_method;
     private Context context;
     private SharedPreferences sharedPreferences;
     private String rememberPassword;
 
 
-    public ServerManager(Context context, String progress_method) {
+    public ServerManager(Context context) {
         this.context = context;
-        this.progress_method = progress_method;
+
     }
 
-    public ServerManager(Context context, AlreadyLoggedIn alreadyLoggedIn, String method){
+    public ServerManager(Context context, AlreadyLoggedIn alreadyLoggedIn, String method) {
         this.method = method;
-        progress_method = method;
         this.alreadyLoggedIn = alreadyLoggedIn;
-        this.context=context;
+        this.context = context;
     }
 
     private ProgressDialog progressDialog;
@@ -94,57 +88,7 @@ import java.util.ArrayList;
 
     @Override
     protected void onPreExecute() {
-        progressDialog = new ProgressDialog(context,R.style.Base_ThemeOverlay_AppCompat_Dark);
-        if (progress_method.equals("REGISTRATION")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Registering, it can take few seconds...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-        if (progress_method.equals("REPORT")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Reporting truck...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-        if (progress_method.equals("RECOVERY")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Sending information...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-        if (progress_method.equals("LOGIN")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Loging in, please wait...");
-            progressDialog.show();
-        }
-        if (progress_method.equals("ACTIVATE")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Your account is being authenticated...");
-            progressDialog.show();
-
-        }
-        if (progress_method.equals("UPDATE_PICTURE")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Setting picture...");
-            progressDialog.show();
-
-        }
-        if (progress_method.equals("UPDATE_MENU_PICTURE")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Setting picture...");
-            progressDialog.show();
-        }
-        if (progress_method.equals("CHANGE_IS_WORKING")) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Changing your work status...");
-            progressDialog.show();
-        }
+        progressDialog = CheckingUtils.progressDialog(context, "Please wait...");
         super.onPreExecute();
     }
 
@@ -183,16 +127,12 @@ import java.util.ArrayList;
                 echo_result = responseObject.getInt("code");
 
 
-
-
-
-
             } catch (Exception e) {
 
                 echo_result = 3;
             }
 
-        }else if (params[0].equals("LOGIN")) {
+        } else if (params[0].equals("LOGIN")) {
             method = params[0];
             try {
 
@@ -305,7 +245,7 @@ import java.util.ArrayList;
             String slogan = params[9];
             String truck_name = params[10];
             String monday = params[11];
-            String tuesday= params[12];
+            String tuesday = params[12];
             String wednesday = params[13];
             String thursday = params[14];
             String friday = params[15];
@@ -361,14 +301,11 @@ import java.util.ArrayList;
             }
 
 
-
-        }else if (params[0].equals("UPDATE_PICTURE")) {
+        } else if (params[0].equals("UPDATE_PICTURE")) {
             method = params[0];
             String username = params[1];
             String password = params[2];
             String path = params[3];
-
-
 
 
             try {
@@ -381,7 +318,6 @@ import java.util.ArrayList;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.putOpt("username", username);
                 jsonObject.putOpt("password", password);
-
 
 
                 MultipartEntity entity = new MultipartEntity();
@@ -400,7 +336,7 @@ import java.util.ArrayList;
             }
 
 
-        }else if (params[0].equals("UPDATE_MENU_PICTURE")) {
+        } else if (params[0].equals("UPDATE_MENU_PICTURE")) {
             method = params[0];
             String username = params[1];
             String password = params[2];
@@ -432,7 +368,7 @@ import java.util.ArrayList;
             }
 
 
-        }else if (params[0].equals("RECOVERY")) {
+        } else if (params[0].equals("RECOVERY")) {
             method = params[0];
             try {
 
@@ -461,7 +397,7 @@ import java.util.ArrayList;
             } catch (Exception e) {
                 echo_result = 3;
             }
-        }else if (params[0].equals("CHANGE_IS_WORKING")) {
+        } else if (params[0].equals("CHANGE_IS_WORKING")) {
             method = params[0];
             String is_working = params[1];
             String username = params[2];
@@ -475,7 +411,7 @@ import java.util.ArrayList;
 
                 //JSON object.
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.putOpt("is_working",is_working );
+                jsonObject.putOpt("is_working", is_working);
                 jsonObject.putOpt("username", username);
                 jsonObject.putOpt("password", password);
 
@@ -492,8 +428,7 @@ import java.util.ArrayList;
             } catch (Exception e) {
                 echo_result = 3;
             }
-        }
-        else if (params[0].equals("REPORT")) {
+        } else if (params[0].equals("REPORT")) {
             method = params[0];
             try {
 
@@ -530,92 +465,16 @@ import java.util.ArrayList;
     }
 
     @Override
-        protected void onPostExecute (Void aVoid){
+    protected void onPostExecute(Void aVoid) {
         progressDialog.dismiss();
-            if (method.equals("REGISTRATION")) {
-                switch (echo_result) {
-                    case 0:
-                        new AlertDialog.Builder(context)
-                                .setMessage("Username or email already exists!")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                        break;
-                    case 1:
-
-                        sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
-
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username", register_username);
-                        editor.putString("password", register_password);
-                        editor.putBoolean("registered", true);
-                        editor.commit();
-                        context.startActivity(new Intent(context, ActivateAccount.class));
-//                        ((Activity) context).finish();
-                        break;
-
-                    case 3:
-                        new AlertDialog.Builder(context)
-                                .setMessage("You need internet connection, to do that.")
-                                .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        break;
-                }
-            }
-
-            if (method.equals("ACTIVATE")) {
-                switch (echo_result) {
-                    case 0:
-                        context.startActivity(new Intent(context, TabActivityLoader.class));
-//                        ((Activity) context).finish();
-                        break;
-                    case 1:
-                        new AlertDialog.Builder(context)
-                                .setMessage("Enter valid activation code!")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                        break;
-                    case 3:
-                        new AlertDialog.Builder(context)
-                                .setMessage("You need internet connection, to do that.")
-                                .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        break;
-                }
-            }
-        if (method.equals("RECOVERY")) {
+        if (method.equals("REGISTRATION")) {
             switch (echo_result) {
                 case 0:
                     new AlertDialog.Builder(context)
-                            .setMessage("Please check your e-mail.")
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            .setMessage("Username or email already exists!")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    context.startActivity(new Intent(context, LoginOrRegister.class));
                                     dialog.dismiss();
-
                                 }
                             })
 
@@ -623,169 +482,132 @@ import java.util.ArrayList;
                             .show();
                     break;
                 case 1:
-                    new AlertDialog.Builder(context)
-                            .setMessage("This e-mail doesn't exist!")
-                            .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
 
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                    sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("username", register_username);
+                    editor.putString("password", register_password);
+                    editor.putBoolean("registered", true);
+                    editor.commit();
+                    context.startActivity(new Intent(context, ActivateAccount.class));
+//                        ((Activity) context).finish();
                     break;
+
                 case 3:
-                    new AlertDialog.Builder(context)
-                            .setMessage("You need internet connection, to do that.")
-                            .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
                     break;
             }
         }
-            if (method.equals("UPDATE PROFILE")) {
-                switch (echo_result) {
-                    case 0:
-                        new AlertDialog.Builder(context)
-                                .setMessage("Successfully saved your profile!")
-                                .setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
 
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                        break;
-                    case 1:
-                        Toast.makeText(context, "Couldn't save, try again", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 3:
-                        new AlertDialog.Builder(context)
-                                .setMessage("You need internet connection, to do that.")
-                                .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        break;
-                }
-            }
-            if (method.equals("LOGIN")) {
-                switch (echo_result) {
-                    case 0:
-                        sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username", login_username);
-                        editor.putString("password", login_password);
-                        editor.putBoolean("logged_in", true);
-                        if(rememberPassword.equals("1")){
-                            editor.putBoolean("rememberPassword", true);
-                        }else{
-                            editor.putBoolean("rememberPassword", false);
-                        }
-                        editor.commit();
-                        context.startActivity(new Intent(context, TabActivityLoader.class));
-                        ((Activity) context).finish();
-
-                        break;
-                    case 1:
-
-                        new AlertDialog.Builder(context)
-                                .setMessage("Wrong username or password!")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-
-
-
-                        break;
-                    case 2:
-                        sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor1 = sharedPreferences.edit();
-                        editor1.putString("username", login_username);
-                        editor1.putString("password", login_password);
-                        editor1.putBoolean("logged_in", true);
-                        editor1.commit();
-                        context.startActivity(new Intent(context, ActivateAccount.class));
+        if (method.equals("ACTIVATE")) {
+            switch (echo_result) {
+                case 0:
+                    context.startActivity(new Intent(context, TabActivityLoader.class));
 //                        ((Activity) context).finish();
-                        break;
-                    case 3:
-                        new AlertDialog.Builder(context)
-                                .setMessage("You need internet connection, to do that.")
-                                .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        break;
-                }
-
+                    break;
+                case 1:
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
+                    break;
+                case 3:
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
+                    break;
             }
-            if (method.equals("SEND CORDINATES")) {
-                switch (echo_result) {
-                    case 0:
-                        Toast.makeText(context, "Your location is successfully changed", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(context, "Something went wrong, try again", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 3:
-                        new AlertDialog.Builder(context)
-                                .setMessage("You need internet connection, to do that.")
-                                .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .show();
-                        break;
-                }
+        }
+        if (method.equals("RECOVERY")) {
+            switch (echo_result) {
+                case 0:
+                    CheckingUtils.createErrorBox("Please, check you e-mail", context);
+                    break;
+                case 1:
+                    CheckingUtils.createErrorBox("This email doesn't exist", context);
+                    break;
+                case 3:
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
+                    break;
             }
+        }
+        if (method.equals("UPDATE PROFILE")) {
+            switch (echo_result) {
+                case 0:
+                    CheckingUtils.createErrorBox("Successfully changed your profile photo", context);
+                    break;
+                case 1:
+                    Toast.makeText(context, "Couldn't save, try again", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
+                    break;
+            }
+        }
+        if (method.equals("LOGIN")) {
+            switch (echo_result) {
+                case 0:
+                    sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("username", login_username);
+                    editor.putString("password", login_password);
+                    editor.putBoolean("logged_in", true);
+                    if (rememberPassword.equals("1")) {
+                        editor.putBoolean("rememberPassword", true);
+                    } else {
+                        editor.putBoolean("rememberPassword", false);
+                    }
+                    editor.commit();
+                    context.startActivity(new Intent(context, TabActivityLoader.class));
+                    ((Activity) context).finish();
+
+                    break;
+                case 1:
+                    CheckingUtils.createErrorBox("Wrong username or password", context);
+
+                    break;
+                case 2:
+                    sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = sharedPreferences.edit();
+                    editor1.putString("username", login_username);
+                    editor1.putString("password", login_password);
+                    editor1.putBoolean("logged_in", true);
+                    editor1.commit();
+                    context.startActivity(new Intent(context, ActivateAccount.class));
+//                        ((Activity) context).finish();
+                    break;
+                case 3:
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
+                    break;
+            }
+
+        }
+        if (method.equals("SEND CORDINATES")) {
+            switch (echo_result) {
+                case 0:
+                    Toast.makeText(context, "Your location is successfully changed", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(context, "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
+                    break;
+            }
+        }
         if (method.equals("CHANGE_IS_WORKING")) {
             switch (echo_result) {
 
                 case 3:
-                    new AlertDialog.Builder(context)
-                            .setMessage("You need internet connection, to do that.")
-                            .setPositiveButton("CLOSE", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
+                    CheckingUtils.createErrorBox("You need internet connection to do that", context);
                     break;
             }
         }
         if (method.equals("UPDATE_PICTURE")) {
-                alreadyLoggedIn.startBackgroundfetching();
-            }
-        if(method.equals("UPDATE_MENU_PICTURE")){
-                alreadyLoggedIn.startMenufetching();
+            alreadyLoggedIn.startBackgroundfetching();
+        }
+        if (method.equals("UPDATE_MENU_PICTURE")) {
+            alreadyLoggedIn.startMenufetching();
         }
 
-            super.onPostExecute(aVoid);
+        super.onPostExecute(aVoid);
 
-        }
     }
+}
 

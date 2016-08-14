@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ import java.net.HttpURLConnection;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    //User info
     private EditText mail;
     private EditText phone_number;
     private EditText description;
@@ -47,12 +49,9 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText saturday;
     private EditText sunday;
     private EditText slogan;
-    private ToggleButton is_working;
     private ImageView background_photo;
     private ImageView menu_photo;
-    private int whichImage;
     private EditText special_offers;
-    private SharedPreferences sharedPreferences;
     private EditText website;
     private String intent_truck_name;
 
@@ -65,14 +64,12 @@ public class ProfileActivity extends AppCompatActivity {
     private double destinationLatitude;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
         intent_truck_name = getIntent().getExtras().getString("username");
-
         special_offers = (EditText) findViewById(R.id.special_offers);
         mail = (EditText) findViewById(R.id.profile_mail);
         description = (EditText) findViewById(R.id.description);
@@ -93,73 +90,26 @@ public class ProfileActivity extends AppCompatActivity {
         new FetchUserData(intent_truck_name).execute();
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         myLongtitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLongitude();
         myLatitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
 
 
     }
-    private Bitmap scaleBitmap(Bitmap bm) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
 
-        int maxWidth = 1920;
-        int maxHeight = 1080;
-        Log.v("Pictures", "Width and height are " + width + "--" + height);
-
-        if (width > height) {
-            // landscape
-            float ratio = (float) width / maxWidth;
-            width = maxWidth;
-            height = (int)(height / ratio);
-        } else if (height > width) {
-            // portrait
-            float ratio = (float) height / maxHeight;
-            height = maxHeight;
-            width = (int)(width / ratio);
-        } else {
-            // square
-            height = maxHeight;
-            width = maxWidth;
-        }
-
-        Log.v("Pictures", "after scaling Width and height are " + width + "--" + height);
-
-        bm = Bitmap.createScaledBitmap(bm, width, height, true);
-        return bm;
-    }
-
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("You need GPS to get path directions, do you want to turn it on?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
 
     public void locate(View view) {
 
 
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);;
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ;
         boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        if(enabled){
+        if (enabled) {
             final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + myLatitude + "," + myLongtitude + "&daddr=" + destinationLatitude + "," + destinationLongtitude));
-            intent.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");
+            intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
             startActivity(intent);
-        }else{
-            buildAlertMessageNoGps();
+        } else {
+            CheckingUtils.buildAlertMessageNoGps("You need GPS to get path directions, do you want to turn it on?", ProfileActivity.this);
         }
 
 
@@ -170,7 +120,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .setMessage("Are you sure, you want to report this truck?")
                 .setPositiveButton("REPORT", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        new ServerManager(ProfileActivity.this, "REPORT").execute("REPORT", intent_truck_name);
+                        new ServerManager(ProfileActivity.this).execute("REPORT", intent_truck_name);
                         dialog.dismiss();
                     }
                 })
@@ -194,9 +144,10 @@ public class ProfileActivity extends AppCompatActivity {
         private JSONArray jsonArray;
         private JSONObject userSchedule;
 
-        public  FetchUserData(String truck_name){
+        public FetchUserData(String truck_name) {
             this.truck_name = truck_name;
         }
+
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(ProfileActivity.this);
@@ -205,35 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
             progressDialog.show();
             super.onPreExecute();
         }
-        private Bitmap scaleBitmap(Bitmap bm) {
-            int width = bm.getWidth();
-            int height = bm.getHeight();
 
-            int maxWidth = 1920;
-            int maxHeight = 1080;
-            Log.v("Pictures", "Width and height are " + width + "--" + height);
-
-            if (width > height) {
-                // landscape
-                float ratio = (float) width / maxWidth;
-                width = maxWidth;
-                height = (int)(height / ratio);
-            } else if (height > width) {
-                // portrait
-                float ratio = (float) height / maxHeight;
-                height = maxHeight;
-                width = (int)(width / ratio);
-            } else {
-                // square
-                height = maxHeight;
-                width = maxWidth;
-            }
-
-            Log.v("Pictures", "after scaling Width and height are " + width + "--" + height);
-
-            bm = Bitmap.createScaledBitmap(bm, width, height, true);
-            return bm;
-        }
 
         public Bitmap getBitmapFromURL(String src) {
             try {
@@ -279,9 +202,8 @@ public class ProfileActivity extends AppCompatActivity {
                 userSchedule = jsonArray.getJSONObject(1);
 
 
-
                 String link_background_photo = "http://64.137.182.232/pictures/" + userInfo.getString("username") + "." + userInfo.getString("ext_profile");
-                String link_menu_photo= "http://64.137.182.232/pictures/" + userInfo.getString("username") +"_menu." + userInfo.getString("ext_menu");
+                String link_menu_photo = "http://64.137.182.232/pictures/" + userInfo.getString("username") + "_menu." + userInfo.getString("ext_menu");
 
                 profile_pic = getBitmapFromURL(link_background_photo);
                 menu_pic = getBitmapFromURL(link_menu_photo);

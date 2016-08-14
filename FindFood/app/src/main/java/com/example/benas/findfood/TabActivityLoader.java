@@ -29,7 +29,6 @@ public class TabActivityLoader extends TabActivity {
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
 
-
         TabHost.TabSpec tabSpec = tabHost.newTabSpec("profile");
         tabSpec.setContent(new Intent(this, AlreadyLoggedIn.class));
         tabSpec.setIndicator("Profile");

@@ -48,36 +48,15 @@ public class StartingPage extends AppCompatActivity {
     }
 
 
-
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("You need GPS to do it, do you want to turn it on?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-
-
     public void findFood(View view) {
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);;
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ;
         boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        if(enabled){
+        if (enabled) {
             startActivity(new Intent(this, TrucksMap.class));
-        }else{
-            buildAlertMessageNoGps();
+        } else {
+            CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to enable it?", StartingPage.this);
         }
     }
 
