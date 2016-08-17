@@ -5,16 +5,21 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="com.example.benas.findfood.AlreadyLoggedIn"
-    android:background="#f1e7e7">
+    >
+
+
+
 
     <ScrollView
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+        android:id="@+id/profile_scrollview">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#ffffff">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -26,115 +31,110 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="200dp"
-                    android:background="#8d312804"
+                    android:background="#ffffff"
                     android:id="@+id/background_picture"
                     android:layout_alignParentTop="true"
-                     />
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <ImageView
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/imageView38"
-                    android:layout_alignBottom="@+id/profile_slogan"
-                    android:layout_centerHorizontal="true"
-                    android:background="#000000"
-                    android:alpha="0.3" />
-
-                <ImageView
-                    android:layout_width="300dp"
                     android:layout_height="1dp"
-                    android:id="@+id/imageView3"
-                    android:background="#000000"
-                    android:layout_alignBottom="@+id/truck_name"
-                    android:layout_centerHorizontal="true" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="4dp"
                     android:id="@+id/imageView4"
                     android:background="#ca000000"
                     android:layout_below="@+id/background_picture"
                     android:layout_alignParentStart="true" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/imageView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="#50ffffff" />
+
                 <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/truck_name"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="27dp"
-                    android:background="#00ffffff"
+                    android:background="#001a1a1a"
                     android:hint="Truck name"
-                    android:gravity="center"
                     android:textStyle="bold"
-                    android:textSize="28dp"
-                    android:textColor="#ffffff"
-                    android:textColorHint="#ffffff"
-                    android:maxLength="32" />
+                    android:textSize="25dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:maxLength="32"
+                    android:text="Martyno kebabinė"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
                 <EditText
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/profile_slogan"
-                    android:layout_below="@+id/truck_name"
-                    android:layout_centerHorizontal="true"
                     android:background="#00ffffff"
-                    android:gravity="center"
                     android:hint="Your slogan"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:textColorHint="#ffffff"
-                    android:maxLength="40" />
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textColorHint="#000000"
+                    android:maxLength="40"
+                    android:text="Mūsų kebabai - tai geriausi rajone"
+                    android:layout_below="@+id/truck_name"
+                    android:layout_centerHorizontal="true" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"></RelativeLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/buttons_layout"
-                android:background="#efd9d9">
-
-                <android.support.v7.widget.AppCompatButton
-                    android:layout_width="140dp"
+                <EditText
+                    android:drawableLeft="@drawable/phone_icon"
+                    android:drawablePadding="6dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Update Location"
-                    android:id="@+id/button"
-                    android:onClick="updateLocation"
-                    android:background="#E43F3F"
-                    android:layout_alignParentTop="true"
+                    android:id="@+id/number"
+                    android:gravity="left|center"
+                    android:hint="Phone number"
+                    android:maxLength="12"
+                    android:inputType="phone"
+                    android:background="#00ffffff"
+                    android:textStyle="italic"
+
+                    android:paddingStart="10dp"
+                    android:textSize="14dp"
+                    android:text="+37062325135"
+                    android:layout_above="@+id/profile_mail"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_mail"
+                    android:drawableLeft="@drawable/mail"
+                    android:drawablePadding="6dp"
+                    android:hint="El. Paštas"
+                    android:background="#00ffffff"
+                    android:editable="false"
+                    android:textStyle="italic"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:paddingStart="10dp"
+                    android:textSize="14dp"
+                    android:text="dargis.martynas@gmail.com"
+                    android:layout_alignBottom="@+id/background_picture"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:textColor="#FFFFFF" />
-
-                <ToggleButton
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:textOff="Not Working"
-                    android:textOn="Working"
-                    android:text="New ToggleButton"
-                    android:id="@+id/profile_is_working"
-                    android:background="#E43F3F"
-                    android:checked="false"
-                    android:textColor="#FFFFFF"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_marginBottom="2dp" />
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/profile_logout"
-                    android:background="@drawable/power_icon"
-                    android:layout_alignTop="@+id/profile_is_working"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:id="@+id/imageView5"
+                    android:background="#50ffffff"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -142,7 +142,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/marker_layout"
-                android:background="#efd9d9">
+                android:background="#ffffff">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -151,14 +151,14 @@
                     android:text="How you want to be seen on map?"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/textView" />
+                    android:id="@+id/textView"
+                    android:layout_marginTop="10dp" />
 
 
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="37dp"
                     android:id="@+id/sandwitch_marker"
-                    android:onClick="sandwich_marker"
                     android:src="@drawable/sandwich_marker"
                     android:layout_below="@+id/textView"
                     android:layout_toStartOf="@+id/textView"
@@ -168,7 +168,6 @@
                     android:layout_width="32dp"
                     android:layout_height="37dp"
                     android:id="@+id/butcher_marker"
-                    android:onClick="butcher_marker"
                     android:src="@drawable/butcher_marker"
                     android:layout_alignParentBottom="true"
                     android:layout_toEndOf="@+id/sandwitch_marker"
@@ -178,7 +177,6 @@
                     android:layout_width="32dp"
                     android:layout_height="37dp"
                     android:id="@+id/burger_marker"
-                    android:onClick="burger_marker"
                     android:src="@drawable/burger_marker"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true" />
@@ -187,7 +185,6 @@
                     android:layout_width="32dp"
                     android:layout_height="37dp"
                     android:id="@+id/candy_marker"
-                    android:onClick="candy_marker"
                     android:src="@drawable/candy_marker"
                     android:layout_alignParentBottom="true"
                     android:layout_alignEnd="@+id/textView"
@@ -197,7 +194,6 @@
                     android:layout_width="32dp"
                     android:layout_height="37dp"
                     android:id="@+id/drink_marker"
-                    android:onClick="drink_marker"
                     android:src="@drawable/drink_marker"
                     android:layout_alignParentBottom="true"
                     android:layout_toEndOf="@+id/candy_marker" />
@@ -208,30 +204,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="#ffffff">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/description_icon"
+                    android:drawablePadding="6dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Description"
-                    android:id="@+id/textView5"
+                    android:id="@+id/desciption_textview"
                     android:inputType="textShortMessage"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView6"
                     android:background="#9c8b8b8b"
-                    android:layout_below="@+id/textView5"
+                    android:layout_below="@+id/desciption_textview"
                     android:layout_centerHorizontal="true" />
 
-                <EditText
+                <ImageView
                     android:layout_width="fill_parent"
+                    android:layout_height="6dp"
+                    android:id="@+id/imageView7"
+                    android:background="#ca000000"
+                    android:layout_below="@+id/background_picture"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:alpha="0" />
+
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/profile_description"
                     android:gravity="center"
@@ -241,40 +252,23 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:textStyle="italic"
-                    android:layout_marginTop="5dp" />
+                    android:layout_weight="1"
+                    android:textSize="14dp" />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/imageView37"
-                    android:src="@drawable/description_icon"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_alignBottom="@+id/textView5"
-                    android:layout_toStartOf="@+id/textView5"
-                    android:layout_marginTop="2dp" />
 
             </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="6dp"
-                android:id="@+id/imageView7"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:alpha="0" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
 
-                android:layout_marginTop="5dp"
-                android:layout_weight="1">
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:background="#ffffff">
 
                 <TextView
+                    android:drawableLeft="@drawable/menu_icon"
+                    android:drawablePadding="6dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -282,7 +276,8 @@
                     android:id="@+id/textView6"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <ImageView
                     android:layout_width="200dp"
@@ -293,45 +288,39 @@
                     android:layout_centerHorizontal="true" />
 
                 <ImageView
-                    android:layout_width="375dp"
-                    android:layout_height="200dp"
-                    android:id="@+id/profile_menu_picture"
-                    android:layout_below="@+id/textView6"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp" />
+                    android:layout_width="170dp"
+                    android:layout_height="1dp"
+                    android:id="@+id/imageView2"
+                    android:background="#9c8b8b8b"
+                    android:layout_above="@+id/imageView14"
+                    android:layout_centerHorizontal="true" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView36"
-                    android:src="@drawable/menu_icon"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_alignBottom="@+id/imageView14"
-                    android:layout_toStartOf="@+id/textView6" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_menu"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:layout_alignTop="@+id/imageView2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="What dishes do you serve?"
+                    android:gravity="center_horizontal"
+                    android:background="#00ffffff"
+                    android:textStyle="italic"
+                    android:textSize="14dp" />
 
             </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="6dp"
-                android:id="@+id/imageView16"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:alpha="0" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView17"
                     android:background="#9c8b8b8b"
@@ -339,6 +328,8 @@
                     android:layout_centerHorizontal="true" />
 
                 <TextView
+                    android:drawableLeft="@drawable/label_icon"
+                    android:drawablePadding="6dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -348,7 +339,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="fill_parent"
@@ -361,40 +353,20 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:textStyle="italic"
-                    android:layout_marginTop="5dp" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:id="@+id/imageView35"
-                    android:src="@drawable/label_icon"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignBottom="@+id/textView7"
-                    android:layout_toStartOf="@+id/textView7"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="3dp" />
+                    android:textSize="14dp" />
 
             </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="6dp"
-                android:id="@+id/imageView18"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:alpha="0" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1">
 
 
                 <TextView
+                    android:drawableLeft="@drawable/schedule_icon"
+                    android:drawablePadding="6dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -404,25 +376,16 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="15dp" />
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView19"
                     android:background="#9c8b8b8b"
                     android:layout_below="@+id/textView8"
                     android:layout_centerHorizontal="true" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:id="@+id/imageView33"
-                    android:src="@drawable/schedule_icon"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignBottom="@+id/textView8"
-                    android:layout_toStartOf="@+id/textView8"
-                    android:layout_marginBottom="5dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -431,7 +394,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="5dp"
                     android:id="@+id/Antradienis"
-                    android:background="#43d35400"
+                    android:background="#ffffff"
                     android:layout_marginBottom="5dp">
 
 
@@ -443,14 +406,15 @@
                         android:id="@+id/textView9"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView20"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView9"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <EditText
@@ -461,7 +425,9 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp"
+                        android:layout_marginTop="3dp" />
 
                 </RelativeLayout>
 
@@ -472,7 +438,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="5dp"
                     android:id="@+id/Pirmadienis"
-                    android:background="#34e67e22"
+                    android:background="#ffffff"
                     android:layout_marginBottom="5dp">
 
                     <EditText
@@ -483,14 +449,17 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp"
+                        android:layout_marginTop="3dp"
+                        android:textStyle="italic" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView22"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView10"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -501,7 +470,8 @@
                         android:id="@+id/textView10"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -513,7 +483,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Treciadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#34e67e22">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -523,14 +493,17 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp"
+                        android:layout_marginTop="3dp"
+                        android:textStyle="italic" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView24"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView11"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -541,7 +514,8 @@
                         android:id="@+id/textView11"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -553,7 +527,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Ketvirtadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#43d35400">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -563,14 +537,17 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp"
+                        android:layout_marginTop="3dp"
+                        android:textStyle="italic" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView26"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView12"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -581,7 +558,8 @@
                         android:id="@+id/textView12"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -593,7 +571,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Penktadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#34e67e22">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -603,14 +581,17 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="15dp"
+                        android:layout_marginTop="3dp"
+                        android:textStyle="italic" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView28"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView13"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -621,7 +602,8 @@
                         android:id="@+id/textView13"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -633,7 +615,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Sestadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#43d35400">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -643,14 +625,17 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp"
+                        android:layout_marginTop="3dp"
+                        android:textStyle="italic" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView30"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView14"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -661,7 +646,8 @@
                         android:id="@+id/textView14"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
 
@@ -672,7 +658,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="5dp"
                     android:id="@+id/Sekmadienis"
-                    android:background="#34e67e22"
+                    android:background="#ffffff"
                     android:layout_marginBottom="5dp">
 
                     <EditText
@@ -683,14 +669,17 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Time, place, adress"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp"
+                        android:layout_marginTop="3dp"
+                        android:textStyle="italic" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView32"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView15"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -701,10 +690,10 @@
                         android:id="@+id/textView15"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
-
             </RelativeLayout>
 
             <ImageView
@@ -718,162 +707,18 @@
                 android:layout_weight="1"
                 android:alpha="0" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" >
-
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView21"
-                    android:background="#9c8b8b8b"
-                    android:layout_below="@+id/textView16"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Contact information"
-                    android:id="@+id/textView16"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/number"
-                    android:gravity="left|center"
-                    android:hint="Phone number"
-                    android:maxLength="12"
-                    android:inputType="phone"
-                    android:layout_below="@+id/profile_mail"
-                    android:background="#00ffffff"
-                    android:layout_centerVertical="true"
-                    android:textStyle="italic"
-
-                    android:layout_marginTop="15dp"
-                    android:paddingStart="10dp"
-                    android:layout_alignEnd="@+id/profile_mail"
-                    android:layout_alignStart="@+id/profile_mail" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/profile_mail"
-                    android:hint="El. Paštas"
-                    android:background="#00ffffff"
-                    android:editable="false"
-                    android:textStyle="italic"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:paddingStart="10dp"
-                    android:layout_alignBottom="@+id/imageView23"
-                    android:layout_toEndOf="@+id/imageView23" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/website"
-                    android:hint="Website"
-                    android:layout_below="@+id/number"
-                    android:inputType="textWebEditText"
-                    android:background="#00ffffff"
-                    android:layout_centerVertical="true"
-                    android:textStyle="italic"
-                    android:layout_marginTop="15dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:paddingStart="10dp"
-                    android:gravity="left"
-                    android:layout_alignStart="@+id/number" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView23"
-                    android:src="@drawable/mail"
-                    android:layout_below="@+id/imageView21"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginLeft="5dp" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView25"
-                    android:background="#9c8b8b8b"
-                    android:layout_below="@+id/profile_mail"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView27"
-                    android:src="@drawable/phone_icon"
-                    android:layout_alignTop="@+id/imageView25"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView29"
-                    android:background="#9c8b8b8b"
-                    android:layout_below="@+id/number"
-                    android:layout_centerHorizontal="true" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView31"
-                    android:src="@drawable/website_icon"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignBottom="@+id/website"
-                    android:layout_toStartOf="@+id/website" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" >
-
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="6dp"
-                android:id="@+id/imageView15"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:alpha="0" />
-
         </LinearLayout>
 </ScrollView>
 
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE"
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/save_button"
-        android:onClick="save"
+        android:layout_margin="15dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:background="#CC1D1D"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/save_icon"
         android:textSize="18dp"
         android:textColor="#FFFFFF" />
-
 
 </RelativeLayout>

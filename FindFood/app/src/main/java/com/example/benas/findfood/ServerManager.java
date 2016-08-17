@@ -239,7 +239,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             String password = params[3];
             String is_working = params[4];
             String description = params[5];
-            String website = params[6];
+            String menu = params[6];
             String number = params[7];
             String offers = params[8];
             String slogan = params[9];
@@ -252,6 +252,8 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             String saturday = params[16];
             String sunday = params[17];
             String marker_info = params[18];
+
+
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
@@ -266,7 +268,6 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
                 jsonObject.putOpt("mail", mail);
                 jsonObject.putOpt("is_working", is_working);
                 jsonObject.putOpt("description", description);
-                jsonObject.putOpt("website", website);
                 jsonObject.putOpt("slogan", slogan);
                 jsonObject.putOpt("number", number);
                 jsonObject.putOpt("special_offer", offers);
@@ -279,16 +280,13 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
                 jsonObject.putOpt("saturday", saturday);
                 jsonObject.putOpt("sunday", sunday);
                 jsonObject.putOpt("marker_icon", marker_info);
+                jsonObject.putOpt("menu", menu);
 
 
                 MultipartEntityBuilder entity = MultipartEntityBuilder.create();
                 ContentType type = ContentType.create(HTTP.PLAIN_TEXT_TYPE, HTTP.UTF_8);
                 entity.addTextBody("json", jsonObject.toString(), type);
                 httpPost.setEntity(entity.build());
-//
-//                EntityBuilder entity = EntityBuilder.create();
-//                entity.setText(jsonObject.toString());
-//                httpPost.setEntity(entity.build());
 
                 //Getting response
                 HttpResponse response = httpClient.execute(httpPost);
@@ -336,39 +334,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             }
 
 
-        } else if (params[0].equals("UPDATE_MENU_PICTURE")) {
-            method = params[0];
-            String username = params[1];
-            String password = params[2];
-            String path = params[3];
-
-            try {
-                //Connect to mysql.
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/sendMenuPicture.php");
-
-                //JSON object.
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.putOpt("username", username);
-                jsonObject.putOpt("password", password);
-
-                MultipartEntity entity = new MultipartEntity();
-                entity.addPart(new FormBodyPart("json", new StringBody(jsonObject.toString())));
-                entity.addPart("picture", new FileBody(new File(path)));
-                httpPost.setEntity(entity);
-
-                //Getting response
-                HttpResponse response = httpClient.execute(httpPost);
-                String responseBody = EntityUtils.toString(response.getEntity());
-                JSONObject responseObject = new JSONObject(responseBody);
-
-                echo_result = responseObject.getInt("code");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-        } else if (params[0].equals("RECOVERY")) {
+        }  else if (params[0].equals("RECOVERY")) {
             method = params[0];
             try {
 
@@ -530,7 +496,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
         if (method.equals("UPDATE PROFILE")) {
             switch (echo_result) {
                 case 0:
-                    CheckingUtils.createErrorBox("Successfully changed your profile photo", context);
+                    CheckingUtils.createErrorBox("Successfully changed your profile", context);
                     break;
                 case 1:
                     Toast.makeText(context, "Couldn't save, try again", Toast.LENGTH_SHORT).show();
@@ -601,9 +567,6 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
         }
         if (method.equals("UPDATE_PICTURE")) {
             alreadyLoggedIn.startBackgroundfetching();
-        }
-        if (method.equals("UPDATE_MENU_PICTURE")) {
-            alreadyLoggedIn.startMenufetching();
         }
 
         super.onPostExecute(aVoid);

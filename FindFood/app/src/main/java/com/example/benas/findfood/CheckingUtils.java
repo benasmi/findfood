@@ -1,10 +1,12 @@
 package com.example.benas.findfood;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -96,6 +98,103 @@ public class CheckingUtils {
             alert.show();
         }
     }
+
+    //Dialog box for logout
+    public static void buildAlertMessageLogout(String message, final Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            final SharedPreferences sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+            new AlertDialog.Builder(context, R.style.MyAlertDialogStyle)
+                    .setMessage("Do you want to logout?")
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("username", null);
+                            editor.putString("password", null);
+                            editor.putBoolean("rememberPassword", false);
+                            editor.commit();
+
+                            context.startActivity(new Intent(context, LoginOrRegister.class));
+                            TabActivityLoader.isChecked = false;
+                            ((Activity) context).finish();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= 21) {
+                final SharedPreferences sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+                new AlertDialog.Builder(context)
+                        .setMessage("Do you want to logout?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("username", null);
+                                editor.putString("password", null);
+                                editor.putBoolean("rememberPassword", false);
+                                editor.commit();
+
+                                context.startActivity(new Intent(context, LoginOrRegister.class));
+                                TabActivityLoader.isChecked = false;
+                                ((Activity) context).finish();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        }
+    }
+    public static void dialogBoxForReport(String message, final Context context, final String intent_truck_name){
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            new AlertDialog.Builder(context, R.style.MyAlertDialogStyle)
+                    .setMessage(message)
+                    .setPositiveButton("REPORT", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            new ServerManager(context).execute("REPORT", intent_truck_name);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    })
+
+                    .show();
+        }else{
+            new AlertDialog.Builder(context)
+                    .setMessage(message)
+                    .setPositiveButton("REPORT", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            new ServerManager(context).execute("REPORT", intent_truck_name);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    })
+
+                    .show();
+        }
+    }
+
 
 
     public static void createErrorBox(String message, Context context){

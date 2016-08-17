@@ -1,6 +1,7 @@
 package com.example.benas.findfood;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,16 +12,21 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.provider.SyncStateContract;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -38,10 +44,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
-public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
+public class TrucksMap extends android.support.v4.app.Fragment {
 
-    private GoogleMap mMap;
+
+    private GoogleMap mGoogleMap;
     private double longtitude;
     private double latitude;
     private JSONArray array;
@@ -50,37 +58,28 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
     private double myLatitude;
     private ArrayList<InfoHolder> markerList = new ArrayList<InfoHolder>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trucks_map);
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        markerList.clear();
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_trucks_map, container, false);
     }
 
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mGoogleMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
 
-        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+        mGoogleMap.setMyLocationEnabled(true);
+
+        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                LocationManager mlocManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 ;
                 boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 if (enabled) {
                     return false;
                 } else {
-                    CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to turn it on?", TrucksMap.this);
+                    CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to turn it on?", getActivity());
                 }
                 return false;
 
@@ -89,19 +88,19 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
         });
 
 
-        if (mMap != null) {
-            View view = getLayoutInflater().inflate(R.layout.marker_info, null);
-            mMap.setInfoWindowAdapter(new InfoWindowClass(view));
+        if (mGoogleMap != null) {
+            view = getActivity().getLayoutInflater().inflate(R.layout.marker_info, null);
+            mGoogleMap.setInfoWindowAdapter(new InfoWindowClass(view));
         }
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if (!CheckingUtils.isNetworkConnected(TrucksMap.this)) {
-                    CheckingUtils.createErrorBox("You need internet connection to do that", TrucksMap.this);
+                if (!CheckingUtils.isNetworkConnected(getActivity())) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that", getActivity());
                     return;
                 } else {
-                    Intent i = new Intent(TrucksMap.this, ProfileActivity.class);
+                    Intent i = new Intent(getActivity(), ProfileActivity.class);
                     for (int z = 0; z < markerList.size(); z++) {
                         String truck = markerList.get(z).getMarker().getTitle();
                         if (marker.getTitle().equals(truck)) {
@@ -120,22 +119,24 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
         });
 
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         if (location != null) {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude()), 16));
         }
 
         Log.i("TEST", String.valueOf(myLongtitude));
 
         new fetcher().execute();
+
     }
+
 
     public void updateCoords(View view) {
         markerList.clear();
-        mMap.clear();
+        mGoogleMap.clear();
         new fetcher().execute();
     }
 
@@ -208,8 +209,8 @@ public class TrucksMap extends FragmentActivity implements OnMapReadyCallback {
                             }
 
 
-                            mMap.addMarker(markerList.get(i).getMarker());
-                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            mGoogleMap.addMarker(markerList.get(i).getMarker());
+                            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                 @Override
                                 public boolean onMarkerClick(Marker marker) {
                                     marker.showInfoWindow();

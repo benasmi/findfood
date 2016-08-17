@@ -16,13 +16,21 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.ToggleButton;
 
 import org.apache.http.HttpResponse;
@@ -39,7 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-public class AlreadyLoggedIn extends AppCompatActivity {
+public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
 
 
     //Profile widgets
@@ -54,15 +62,16 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     private EditText profile_friday;
     private EditText profile_saturday;
     private EditText profile_sunday;
+    private EditText profile_menu;
     private EditText profile_slogan;
-    private ToggleButton is_working;
     private ImageView profile_background_photo;
-    private ImageView profile_menu_photo;
     private int whichImage;
     private EditText profile_special_offers;
     private SharedPreferences sharedPreferences;
-    private EditText profile_website;
-    private ImageView profile_logout;
+    private Context context;
+    private TabActivityLoader loader;
+    private ImageView save_button;
+    private ScrollView profile_scrollview;
 
     //Background photos
     private JSONArray jsonArrayExtBackground;
@@ -70,6 +79,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
 
     private JSONArray jsonArrayExtMenu;
     private JSONObject jsonObjectExtMenu;
+
 
 
     //Markers pictures
@@ -85,59 +95,99 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     private String password;
 
 
-    public AlreadyLoggedIn() {
 
-    }
+
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_already_logged_in);
+        View rootView = inflater.inflate(R.layout.activity_already_logged_in, container, false);
+
+        loader = new TabActivityLoader();
+
 
         //Initializing widgets
-        profile_special_offers = (EditText) findViewById(R.id.profile_special_offers);
-        profile_mail = (EditText) findViewById(R.id.profile_mail);
-        profile_description = (EditText) findViewById(R.id.profile_description);
-        profile_phone_number = (EditText) findViewById(R.id.number);
-        is_working = (ToggleButton) findViewById(R.id.profile_is_working);
-        profile_truck_names = (EditText) findViewById(R.id.truck_name);
-        profile_website = (EditText) findViewById(R.id.website);
-        profile_slogan = (EditText) findViewById(R.id.profile_slogan);
-        profile_monday = (EditText) findViewById(R.id.profile_monday);
-        profile_tuesday = (EditText) findViewById(R.id.profile_tuesday);
-        profile_wednesday = (EditText) findViewById(R.id.profile_wednesday);
-        profile_thursday = (EditText) findViewById(R.id.profile_thursday);
-        profile_friday = (EditText) findViewById(R.id.profile_friday);
-        profile_saturday = (EditText) findViewById(R.id.profile_saturday);
-        profile_sunday = (EditText) findViewById(R.id.profile_sunday);
-        profile_menu_photo = (ImageView) findViewById(R.id.profile_menu_picture);
-        profile_background_photo = (ImageView) findViewById(R.id.background_picture);
-        profile_logout = (ImageView) findViewById(R.id.profile_logout);
-
+        profile_special_offers = (EditText) rootView.findViewById(R.id.profile_special_offers);
+        profile_menu = (EditText) rootView.findViewById(R.id.profile_menu);
+        profile_mail = (EditText) rootView.findViewById(R.id.profile_mail);
+        profile_description = (EditText) rootView.findViewById(R.id.profile_description);
+        profile_phone_number = (EditText) rootView.findViewById(R.id.number);
+        profile_truck_names = (EditText) rootView.findViewById(R.id.truck_name);
+        profile_slogan = (EditText) rootView.findViewById(R.id.profile_slogan);
+        profile_monday = (EditText) rootView.findViewById(R.id.profile_monday);
+        profile_tuesday = (EditText) rootView.findViewById(R.id.profile_tuesday);
+        profile_wednesday = (EditText) rootView.findViewById(R.id.profile_wednesday);
+        profile_thursday = (EditText) rootView.findViewById(R.id.profile_thursday);
+        profile_friday = (EditText) rootView.findViewById(R.id.profile_friday);
+        profile_saturday = (EditText) rootView.findViewById(R.id.profile_saturday);
+        profile_sunday = (EditText) rootView.findViewById(R.id.profile_sunday);
+        profile_background_photo = (ImageView) rootView.findViewById(R.id.background_picture);
+        save_button = (ImageView) rootView.findViewById(R.id.save_button);
+        profile_scrollview = (ScrollView) rootView.findViewById(R.id.profile_scrollview);
 
         //Markers
-        butcher_marker = (ImageView) findViewById(R.id.butcher_marker);
-        burger_marker = (ImageView) findViewById(R.id.burger_marker);
-        candy_marker = (ImageView) findViewById(R.id.candy_marker);
-        drink_marker = (ImageView) findViewById(R.id.drink_marker);
-        sandwich_marker = (ImageView) findViewById(R.id.sandwitch_marker);
+        butcher_marker = (ImageView) rootView.findViewById(R.id.butcher_marker);
+        burger_marker = (ImageView) rootView.findViewById(R.id.burger_marker);
+        candy_marker = (ImageView) rootView.findViewById(R.id.candy_marker);
+        drink_marker = (ImageView) rootView.findViewById(R.id.drink_marker);
+        sandwich_marker = (ImageView) rootView.findViewById(R.id.sandwitch_marker);
+
+        //Marker listeners
+        butcher_marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                butcher_marker();
+            }
+        });
+        burger_marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                burger_marker();
+            }
+        });
+        candy_marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                candy_marker();
+            }
+        });
+        drink_marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drink_marker();
+            }
+        });
+        sandwich_marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sandwich_marker();
+            }
+        });
+
+        //Save button onclick
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                save();
+            }
+        });
 
         //Getting login crediantials from sharedPrefs.
-        sharedPreferences = getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
 
-        new FetchUserData(username).execute();
+             new FetchUserData(username).execute();
 
         //Starting background photo picker intent
         profile_background_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!CheckingUtils.isNetworkConnected(AlreadyLoggedIn.this)) {
-                    CheckingUtils.createErrorBox("You need internet connection to do that", AlreadyLoggedIn.this);
+                if (!CheckingUtils.isNetworkConnected(getActivity())) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that", getActivity());
                     return;
                 } else {
                     Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -149,78 +199,30 @@ public class AlreadyLoggedIn extends AppCompatActivity {
             }
         });
 
-        //Starting menu photo picker intent
-        profile_menu_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (!CheckingUtils.isNetworkConnected(AlreadyLoggedIn.this)) {
-                    CheckingUtils.createErrorBox("You need internet connection to do that", AlreadyLoggedIn.this);
-                    return;
-                } else {
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, 2);
+        profile_scrollview.setOnTouchListener(new View.OnTouchListener() {
+            float startingY;
+            float dy;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if(dy>20 ){
+                    TabActivityLoader.tabLayout.setVisibility(View.INVISIBLE);
+                    startingY = motionEvent.getY();
+                }if(dy<-5){
+
+                    startingY = motionEvent.getY();
+                    TabActivityLoader.tabLayout.setVisibility(View.VISIBLE);
                 }
+                dy = motionEvent.getY() - startingY;
 
+                Log.i("TEST", "Starting Y: " + String.valueOf(startingY) + ", " + "dY: " + dy);
+                return false;
             }
         });
-
-
-        //Logout method --- > will be refractored
-        profile_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sharedPreferences = AlreadyLoggedIn.this.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
-
-                new AlertDialog.Builder(AlreadyLoggedIn.this)
-                        .setMessage("Do you want to logout?")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("username", null);
-                                editor.putString("password", null);
-                                editor.putBoolean("rememberPassword", false);
-                                editor.commit();
-
-                                startActivity(new Intent(AlreadyLoggedIn.this, LoginOrRegister.class));
-                                ((Activity) AlreadyLoggedIn.this).finish();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-
-            }
-        });
-
-
-        //Changing isWorking status --- > will be refractored
-        is_working.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!CheckingUtils.isNetworkConnected(AlreadyLoggedIn.this)) {
-                    is_working.setChecked(false);
-                    CheckingUtils.createErrorBox("You need internet connection to do that", AlreadyLoggedIn.this);
-
-                    return;
-                } else {
-                    CheckingUtils.createErrorBox("Don't forget to change status, after you finish your work", AlreadyLoggedIn.this);
-                    new ServerManager(AlreadyLoggedIn.this).execute("CHANGE_IS_WORKING", is_working.isChecked() ? "1" : "0", username, password);
-                }
-
-            }
-        });
-
-
+        return rootView;
     }
+
 
     //Getting intent picker request code and starting Server Manager(Setting background and menu photos)
     @Override
@@ -235,39 +237,18 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("png")) {
                     final String username = sharedPreferences.getString("username", null);
                     final String password = sharedPreferences.getString("password", null);
-                    new ServerManager(AlreadyLoggedIn.this, this, "UPDATE_PICTURE").execute("UPDATE_PICTURE", username, password, filePath);
+                    new ServerManager(getActivity(),AlreadyLoggedIn.this,"UPDATE_PICTURE").execute("UPDATE_PICTURE", username, password, filePath);
 
                 } else {
                     //NOT IN REQUIRED FORMAT
                 }
             }
         }
-        if (requestCode == 2) {
-            if (resultCode == Activity.RESULT_OK) {
-
-
-                Uri selectedImage = data.getData();
-                String filePath = getPath(selectedImage);
-                String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
-
-                if (file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("png")) {
-                    final String username = sharedPreferences.getString("username", null);
-                    final String password = sharedPreferences.getString("password", null);
-                    new ServerManager(AlreadyLoggedIn.this, this, "UPDATE_MENU_PICTURE").execute("UPDATE_MENU_PICTURE", username, password, filePath);
-
-
-                } else {
-                    //NOT IN REQUIRED FORMAT
-                }
-            }
-        }
-
-
     }
 
     public String getPath(Uri uri) {
         String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
         int column_index = cursor
                 .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
         cursor.moveToFirst();
@@ -277,14 +258,15 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     }
 
 
+
     //Updating already_logged_in info and inserting new info into user table
-    public void save(View view) {
+    public void save() {
         //User table info
         String offers = profile_special_offers.getText().toString();
         String mail = profile_mail.getText().toString();
+        String menu = profile_menu.getText().toString();
         String description = profile_description.getText().toString();
         String number = profile_phone_number.getText().toString();
-        String website = profile_website.getText().toString();
         String truck_name = profile_truck_names.getText().toString();
         String slogan = profile_slogan.getText().toString();
         final String username = sharedPreferences.getString("username", null);
@@ -314,8 +296,8 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         }
 
 
-        new ServerManager(this).execute("UPDATE PROFILE", mail, username, password, is_working.isChecked() ? "1" : "0",
-                description, website, number, offers, slogan, truck_name, monday, tuesday, wednesday, thursday, friday, saturday, sunday, String.valueOf(whichImage));
+        new ServerManager(getActivity()).execute("UPDATE PROFILE", mail, username, password, "1" /*TODO: handle 1 and 0*/,
+                description,menu, number, offers, slogan, truck_name, monday, tuesday, wednesday, thursday, friday, saturday, sunday, String.valueOf(whichImage));
 
     }
 
@@ -326,39 +308,9 @@ public class AlreadyLoggedIn extends AppCompatActivity {
 
     }
 
-    public void startMenufetching() {
-        new fetchMenuPhoto(username).execute();
-    }
-    //----------------------------//
-
-
-    //Updating location
-    public void updateLocation(View view) {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        if (enabled) {
-            if (!CheckingUtils.isNetworkConnected(this)) {
-                is_working.setChecked(false);
-                CheckingUtils.createErrorBox("You need internet connection to do that", this);
-                return;
-            }
-
-            final double longtitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLongitude();
-            final double latitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
-
-            CheckingUtils.createErrorBox("Your location was updated", AlreadyLoggedIn.this);
-            new ServerManager(AlreadyLoggedIn.this).execute("SEND CORDINATES", String.valueOf(longtitude), String.valueOf(latitude),
-                    sharedPreferences.getString("username", null), sharedPreferences.getString("password", null));
-        } else {
-            CheckingUtils.buildAlertMessageNoGps("Your GPS seems disabled, do you want to enable it?", AlreadyLoggedIn.this);
-        }
-
-
-    }
 
     //Setting markers
-    public void butcher_marker(View view) {
+    public void butcher_marker() {
         candy_marker.setBackground(null);
         burger_marker.setBackground(null);
         drink_marker.setBackground(null);
@@ -367,7 +319,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         whichImage = 0;
     }
 
-    public void sandwich_marker(View view) {
+    public void sandwich_marker() {
         candy_marker.setBackground(null);
         burger_marker.setBackground(null);
         drink_marker.setBackground(null);
@@ -376,7 +328,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         whichImage = 1;
     }
 
-    public void burger_marker(View view) {
+    public void burger_marker() {
         candy_marker.setBackground(null);
         burger_marker.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_borders_green));
         drink_marker.setBackground(null);
@@ -385,7 +337,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         whichImage = 2;
     }
 
-    public void candy_marker(View view) {
+    public void candy_marker() {
         candy_marker.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_borders_green));
         burger_marker.setBackground(null);
         drink_marker.setBackground(null);
@@ -394,7 +346,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
         whichImage = 3;
     }
 
-    public void drink_marker(View view) {
+    public void drink_marker() {
         candy_marker.setBackground(null);
         burger_marker.setBackground(null);
         drink_marker.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_borders_green));
@@ -408,7 +360,6 @@ public class AlreadyLoggedIn extends AppCompatActivity {
     class FetchUserData extends AsyncTask<Void, Void, Void> {
 
         private Bitmap profile_pic;
-        private Bitmap menu_pic;
         private ProgressDialog progressDialog;
         private String username;
         private JSONObject userInfo;
@@ -421,7 +372,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(AlreadyLoggedIn.this);
+            progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Getting information...");
             progressDialog.setCancelable(false);
             progressDialog.show();
@@ -471,19 +422,19 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 userInfo = jsonArray.getJSONObject(0);
                 userSchedule = jsonArray.getJSONObject(1);
 
-                SharedPreferences sharedPreferences = getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
 
                 String link_background_photo = "http://64.137.182.232/pictures/" + username + "." + userInfo.getString("ext_profile");
-                String link_menu_photo = "http://64.137.182.232/pictures/" + username + "_menu." + userInfo.getString("ext_menu");
+
 
                 Log.i("TEST", link_background_photo);
-                Log.i("TEST", link_menu_photo);
+
 
                 profile_pic = getBitmapFromURL(link_background_photo);
-                menu_pic = getBitmapFromURL(link_menu_photo);
 
-                Log.i("TEST", "Username" + username + " background_photo " + link_background_photo + " menu photo" + link_menu_photo);
+
+                Log.i("TEST", "Username" + username + " background_photo " + link_background_photo + " menu photo");
 
 
             } catch (Exception e) {
@@ -494,6 +445,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
             return null;
         }
 
+
         @Override
         protected void onPostExecute(Void aVoid) {
             progressDialog.dismiss();
@@ -503,15 +455,11 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 profile_phone_number.setText(userInfo.getString("phone_number"));
                 profile_description.setText(userInfo.getString("description"));
                 profile_slogan.setText(userInfo.getString("slogan"));
-                profile_website.setText(userInfo.getString("website"));
-                is_working.setChecked(userInfo.getInt("is_working") == 1 ? true : false);
                 profile_truck_names.setText(userInfo.getString("truck_name"));
                 profile_special_offers.setText(userInfo.getString("special_offer"));
-
+                profile_menu.setText(userInfo.getString("menu"));
                 profile_background_photo.setImageBitmap(profile_pic);
-                profile_menu_photo.setImageBitmap(menu_pic);
-
-
+                TabActivityLoader.isChecked = userInfo.getString("is_working").equals("1") ?  true : false;
                 whichImage = Integer.parseInt(userInfo.getString("marker_icon"));
 
 
@@ -625,7 +573,7 @@ public class AlreadyLoggedIn extends AppCompatActivity {
                 jsonObjectExtBackground = jsonArrayExtBackground.getJSONObject(0);
 
 
-                SharedPreferences sharedPreferences = getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
 
                 String link_background_photo = "http://64.137.182.232/pictures/" + username + "." + jsonObjectExtBackground.getString("ext_profile");
@@ -652,102 +600,12 @@ public class AlreadyLoggedIn extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(AlreadyLoggedIn.this);
+            progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Please wait...");
             progressDialog.setCancelable(false);
             progressDialog.show();
             super.onPreExecute();
         }
     }
-
-
-    class fetchMenuPhoto extends AsyncTask<Void, Void, Void> {
-
-        private String username;
-        private Bitmap profile_pic;
-        private ProgressDialog progressDialog;
-
-        public fetchMenuPhoto(String username) {
-            this.username = username;
-        }
-
-        public Bitmap getBitmapFromURL(String src) {
-            try {
-                java.net.URL url = new java.net.URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return CheckingUtils.scaleBitmap(myBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            try {
-                //Connect to mysql.
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/ext_profile_menu.php");
-
-
-                //JSON object.
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.putOpt("username", username);
-
-
-                EntityBuilder entity = EntityBuilder.create();
-                entity.setText(jsonObject.toString());
-                httpPost.setEntity(entity.build());
-
-                //Getting response
-                HttpResponse response = httpClient.execute(httpPost);
-                String responseBody = EntityUtils.toString(response.getEntity());
-
-                jsonArrayExtMenu = new JSONArray(responseBody);
-
-                jsonObjectExtMenu = jsonArrayExtMenu.getJSONObject(0);
-
-
-                SharedPreferences sharedPreferences = getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
-                String username = sharedPreferences.getString("username", null);
-
-                String link_menu_photo = "http://64.137.182.232/pictures/" + username + "_menu." + jsonObjectExtMenu.getString("ext_menu");
-                Log.i("TEST", link_menu_photo);
-
-
-                profile_pic = getBitmapFromURL(link_menu_photo);
-
-
-            } catch (Exception e) {
-
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            progressDialog.dismiss();
-            profile_menu_photo.setImageBitmap(profile_pic);
-
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = new ProgressDialog(AlreadyLoggedIn.this);
-            progressDialog.setMessage("Please wait...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-    }
-
 
 }

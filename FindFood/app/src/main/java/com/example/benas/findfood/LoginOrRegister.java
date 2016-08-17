@@ -31,6 +31,8 @@ public class LoginOrRegister extends AppCompatActivity {
         overridePendingTransition(R.anim.push_right_in, R.anim.push_rigth_out);
         setContentView(R.layout.activity_login_or_register);
 
+
+
         username_login = (EditText) findViewById(R.id.username_login);
         password_login = (EditText) findViewById(R.id.password_login);
         remember_my_password = (CheckBox) findViewById(R.id.remember_my_password);

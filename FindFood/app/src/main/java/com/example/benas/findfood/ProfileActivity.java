@@ -1,5 +1,9 @@
 package com.example.benas.findfood;
 
+import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
+
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,7 +18,10 @@ import android.os.AsyncTask;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,10 +57,9 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText sunday;
     private EditText slogan;
     private ImageView background_photo;
-    private ImageView menu_photo;
     private EditText special_offers;
-    private EditText website;
     private String intent_truck_name;
+    private EditText menu;
 
     //User coords
     private double myLongtitude;
@@ -63,6 +69,8 @@ public class ProfileActivity extends AppCompatActivity {
     private double destinationLongtitude;
     private double destinationLatitude;
 
+    private Toolbar myToolbar;
+    private ImageView find_truck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +83,6 @@ public class ProfileActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.description);
         phone_number = (EditText) findViewById(R.id.number);
         truck_names = (EditText) findViewById(R.id.truck_name);
-        website = (EditText) findViewById(R.id.website);
         slogan = (EditText) findViewById(R.id.slogan);
         monday = (EditText) findViewById(R.id.monday);
         tuesday = (EditText) findViewById(R.id.tuesday);
@@ -84,8 +91,9 @@ public class ProfileActivity extends AppCompatActivity {
         friday = (EditText) findViewById(R.id.friday);
         saturday = (EditText) findViewById(R.id.saturday);
         sunday = (EditText) findViewById(R.id.sunday);
-        menu_photo = (ImageView) findViewById(R.id.menu_picture);
         background_photo = (ImageView) findViewById(R.id.background_picture);
+        menu = (EditText) findViewById(R.id.menu);
+        find_truck = (ImageView) findViewById(R.id.find_truck);
 
         new FetchUserData(intent_truck_name).execute();
 
@@ -94,14 +102,43 @@ public class ProfileActivity extends AppCompatActivity {
         myLatitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
 
 
+        myToolbar = (Toolbar) findViewById(R.id.profile_toolbar);
+        myToolbar.setTitleTextColor(Color.parseColor("#ecf0f1"));
+        setSupportActionBar(myToolbar);
+
+        find_truck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                locate();
+            }
+        });
+
+
     }
 
 
-    public void locate(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_for_user, menu);
+
+        menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                CheckingUtils.dialogBoxForReport("Do you really want to report this truck?", ProfileActivity.this, intent_truck_name);
+                return false;
+            }
+        });
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    public void locate() {
 
 
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ;
+
         boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if (enabled) {
@@ -115,29 +152,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void report_button(View view) {
-        new AlertDialog.Builder(this)
-                .setMessage("Are you sure, you want to report this truck?")
-                .setPositiveButton("REPORT", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        new ServerManager(ProfileActivity.this).execute("REPORT", intent_truck_name);
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-                    }
-                })
-
-                .show();
-    }
 
     class FetchUserData extends AsyncTask<Void, Void, Void> {
 
         private Bitmap profile_pic;
-        private Bitmap menu_pic;
         private ProgressDialog progressDialog;
         private String truck_name;
         private JSONObject userInfo;
@@ -203,14 +221,10 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                 String link_background_photo = "http://64.137.182.232/pictures/" + userInfo.getString("username") + "." + userInfo.getString("ext_profile");
-                String link_menu_photo = "http://64.137.182.232/pictures/" + userInfo.getString("username") + "_menu." + userInfo.getString("ext_menu");
-
                 profile_pic = getBitmapFromURL(link_background_photo);
-                menu_pic = getBitmapFromURL(link_menu_photo);
 
 
                 Log.i("TEST", String.valueOf(profile_pic));
-                Log.i("TEST", String.valueOf(menu_pic));
                 Log.i("TEST", this.truck_name);
 
             } catch (Exception e) {
@@ -229,11 +243,11 @@ public class ProfileActivity extends AppCompatActivity {
                 phone_number.setText(userInfo.getString("phone_number"));
                 description.setText(userInfo.getString("description"));
                 slogan.setText(userInfo.getString("slogan"));
-                website.setText(userInfo.getString("website"));
                 truck_names.setText(userInfo.getString("truck_name"));
                 special_offers.setText(userInfo.getString("special_offer"));
+                menu.setText(userInfo.getString("menu"));
                 background_photo.setImageBitmap(profile_pic);
-                menu_photo.setImageBitmap(menu_pic);
+
 
                 destinationLongtitude = userInfo.getDouble("longtitude");
                 destinationLatitude = userInfo.getDouble("latitude");

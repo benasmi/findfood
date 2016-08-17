@@ -1,51 +1,139 @@
 package com.example.benas.findfood;
 
-import android.app.TabActivity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
-import android.widget.TabHost;
-import android.widget.TextView;
 
-public class TabActivityLoader extends TabActivity {
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.location.LocationManager;
+import android.os.Bundle;
+
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+
+public class TabActivityLoader extends AppCompatActivity {
+    public static TabLayout tabLayout;
+    private ViewPager viewPager;
+    public static boolean isChecked;
+    public Menu menuItem;
+    private SharedPreferences sharedPreferences;
+    public static String[] tabs = {"Profile", "Map"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_rigth_out);
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_tab_activity_loader);
 
-        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setTitleTextColor(Color.parseColor("#ecf0f1"));
+        setSupportActionBar(myToolbar);
 
+        tabLayout = (TabLayout) findViewById(R.id.my_tab_layout);
 
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("profile");
-        tabSpec.setContent(new Intent(this, AlreadyLoggedIn.class));
-        tabSpec.setIndicator("Profile");
-        tabHost.addTab(tabSpec);
+        sharedPreferences = getSharedPreferences("DataPrefs",MODE_PRIVATE);
 
-        tabSpec = tabHost.newTabSpec("map");
-        tabSpec.setContent(new Intent(this, TrucksMap.class));
-        tabSpec.setIndicator("Map");
-        tabHost.addTab(tabSpec);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), getApplicationContext()));
+        viewPager.getCurrentItem();
 
-        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+        tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
+        tabLayout.setupWithViewPager(viewPager);
 
-            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-            tv.setTextColor(Color.parseColor("#ffffff"));
-        }
 
     }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menuItem.getItem(1).setChecked(isChecked);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_bar,menu);
+        menuItem = menu;
+
+
+
+
+        //Update Location
+        menuItem.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                update_location();
+                return false;
+            }
+        });
+
+
+        menuItem.getItem(1).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                String username = sharedPreferences.getString("username","");
+                String password = sharedPreferences.getString("password","");
+
+                if (!CheckingUtils.isNetworkConnected(TabActivityLoader.this)) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that",TabActivityLoader.this);
+                    return false;
+                } else {
+                    menuItem.setChecked(menuItem.isChecked() ? false : true);
+                    CheckingUtils.createErrorBox("Don't forget to change status, after you finish your work", TabActivityLoader.this);
+                    new ServerManager(TabActivityLoader.this).execute("CHANGE_IS_WORKING", menuItem.isChecked() ? "1" : "0", username, password);
+                }
+                return false;
+            }
+        });
+
+        menuItem.getItem(2).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                CheckingUtils.buildAlertMessageLogout("Do you want to log out?", TabActivityLoader.this);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    public void update_location(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if (enabled) {
+            if (!CheckingUtils.isNetworkConnected(this)) {
+                CheckingUtils.createErrorBox("You need internet connection to do that", this);
+                return;
+            }
+
+            final double longtitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLongitude();
+            final double latitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
+
+            CheckingUtils.createErrorBox("Your location was updated", this);
+            new ServerManager(this).execute("SEND CORDINATES", String.valueOf(longtitude), String.valueOf(latitude),
+                    sharedPreferences.getString("username", null), sharedPreferences.getString("password", null));
+        } else {
+            CheckingUtils.buildAlertMessageNoGps("Your GPS seems disabled, do you want to enable it?", this);
+        }
+    }
+
+
+
+
 
 
 }

@@ -3,12 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.benas.findfood.ProfileActivity"
-    android:background="#36f1c40f">
+    android:background="#ffffff">
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#DD4337"
+        android:theme="@style/AppThemeBar"
+        app:popupTheme="@style/AppThemeBar"/>
 
 <ScrollView
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:layout_below="@+id/profile_toolbar">
 
         <LinearLayout
             android:orientation="vertical"
@@ -25,30 +37,21 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="200dp"
-                    android:background="#8d312804"
                     android:id="@+id/background_picture"
                     android:layout_alignParentTop="true" />
 
                 <ImageView
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="55dp"
                     android:id="@+id/imageView123"
-                    android:background="#000000"
-                    android:alpha="0.3"
-                    android:layout_alignTop="@+id/truck_name"
+                    android:background="#50ffffff"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
 
                 <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView3"
-                    android:background="#000000"
-                    android:layout_alignBottom="@+id/truck_name"
-                    android:layout_centerHorizontal="true" />
-
-                <ImageView
                     android:layout_width="fill_parent"
-                    android:layout_height="4dp"
+                    android:layout_height="1dp"
                     android:id="@+id/imageView4"
                     android:background="#ca000000"
                     android:layout_below="@+id/background_picture"
@@ -58,15 +61,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/truck_name"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="27dp"
                     android:editable="false"
                     android:background="#00ffffff"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="25dp"
-                    android:textColor="#ffffff" />
+                    android:textColor="#000000"
+                    android:text="Truck name"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_centerHorizontal="true" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -77,26 +80,63 @@
                     android:editable="false"
                     android:background="#00ffffff"
                     android:gravity="center"
-                    android:textColor="#ffffff" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/report_button"
-                    android:src="@drawable/report_button"
-                    android:onClick="report_button"
-                    android:alpha="0.9"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="5dp"
-                    android:paddingBottom="2dp" />
+                    android:textColor="#000000"
+                    android:text="Musu kebabai - geriausi kebabai"
+                    android:textIsSelectable="false"
+                    android:textSize="15dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"></RelativeLayout>
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/relativeLayout"></RelativeLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/imageView3"
+                    android:background="#50ffffff"
+                    android:layout_above="@+id/imageView4"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <EditText
+                    android:drawableLeft="@drawable/mail"
+                    android:drawablePadding="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_mail"
+                    android:editable="false"
+                    android:hint="E-mail"
+                    android:background="#00ffffff"
+                    android:textStyle="italic"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:paddingStart="10dp"
+                    android:textSize="14dp"
+                    android:layout_alignBottom="@+id/imageView3"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="2dp" />
+
+                <EditText
+                    android:drawableLeft="@drawable/phone_icon"
+                    android:drawablePadding="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/number"
+                    android:gravity="left|center"
+                    android:hint="No phone number"
+                    android:background="#00ffffff"
+                    android:textStyle="italic"
+                    android:editable="false"
+                    android:paddingStart="10dp"
+                    android:textSize="14dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_above="@+id/profile_mail"
+                    android:layout_alignParentLeft="true" />
 
             </RelativeLayout>
 
@@ -107,22 +147,25 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:drawableLeft="@drawable/description_icon"
+                    android:drawablePadding="6dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Description"
-                    android:id="@+id/textView5"
+                    android:id="@+id/desciption_textview"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView6"
                     android:background="#9c8b8b8b"
-                    android:layout_below="@+id/textView5"
+                    android:layout_below="@+id/desciption_textview"
                     android:layout_centerHorizontal="true" />
 
                 <EditText
@@ -137,30 +180,9 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:textStyle="italic"
-                    android:layout_marginTop="5dp" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/imageView37"
-                    android:src="@drawable/description_icon"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_alignBottom="@+id/textView5"
-                    android:layout_toStartOf="@+id/textView5"
-                    android:layout_marginTop="2dp" />
+                    android:textSize="14dp" />
 
             </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="4dp"
-                android:id="@+id/imageView7"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -172,15 +194,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/menu_icon"
+                    android:drawablePadding="6dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Menu"
                     android:id="@+id/textView6"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_marginTop="2dp" />
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView14"
                     android:layout_below="@+id/textView6"
@@ -188,36 +214,22 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true" />
 
-                <ImageView
-                    android:layout_width="375dp"
-                    android:layout_height="200dp"
-                    android:id="@+id/menu_picture"
-                    android:background="#34e67e22"
-                    android:layout_below="@+id/textView6"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView36"
-                    android:src="@drawable/menu_icon"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_alignBottom="@+id/imageView14"
-                    android:layout_toStartOf="@+id/textView6" />
-
             </RelativeLayout>
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="4dp"
-                android:id="@+id/imageView16"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/menu"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_alignTop="@+id/imageView2"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" />
+                android:hint="Owner doesn&apos;t have a menu"
+                android:gravity="center_horizontal"
+                android:background="#00ffffff"
+                android:textStyle="italic"
+                android:textSize="14dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -227,7 +239,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView17"
                     android:background="#9c8b8b8b"
@@ -235,6 +247,8 @@
                     android:layout_centerHorizontal="true" />
 
                 <TextView
+                    android:drawableLeft="@drawable/label_icon"
+                    android:drawablePadding="6dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -243,7 +257,9 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_marginTop="5dp" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -257,30 +273,10 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:textStyle="italic"
-                    android:layout_marginTop="5dp" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:id="@+id/imageView35"
-                    android:src="@drawable/label_icon"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignBottom="@+id/textView7"
-                    android:layout_toStartOf="@+id/textView7"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="3dp" />
+                    android:layout_marginTop="5dp"
+                    android:textSize="14dp" />
 
             </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="4dp"
-                android:id="@+id/imageView18"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -292,6 +288,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/schedule_icon"
+                    android:drawablePadding="6dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Schedule"
                     android:id="@+id/textView8"
@@ -299,25 +297,17 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="15dp"
+                    android:layout_marginTop="5dp" />
 
                 <ImageView
-                    android:layout_width="200dp"
+                    android:layout_width="170dp"
                     android:layout_height="1dp"
                     android:id="@+id/imageView19"
                     android:background="#9c8b8b8b"
                     android:layout_below="@+id/textView8"
                     android:layout_centerHorizontal="true" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:id="@+id/imageView33"
-                    android:src="@drawable/schedule_icon"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignBottom="@+id/textView8"
-                    android:layout_toStartOf="@+id/textView8"
-                    android:layout_marginBottom="5dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -327,7 +317,7 @@
                     android:layout_marginTop="5dp"
 
                     android:id="@+id/Antradienis"
-                    android:background="#43d35400"
+                    android:background="#ffffff"
                     android:layout_marginBottom="5dp">
 
 
@@ -339,14 +329,14 @@
                         android:id="@+id/textView9"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView20"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView9"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <EditText
@@ -358,7 +348,8 @@
                         android:background="#00ffffff"
                         android:hint="Not given"
                         android:gravity="center"
-                        android:editable="false"/>
+                        android:editable="false"
+                        android:textSize="13dp" />
 
                 </RelativeLayout>
 
@@ -369,7 +360,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="5dp"
                     android:id="@+id/Pirmadienis"
-                    android:background="#34e67e22"
+                    android:background="#ffffff"
                     android:layout_marginBottom="5dp">
 
                     <EditText
@@ -381,14 +372,15 @@
                         android:editable="false"
                         android:background="#00ffffff"
                         android:hint="Not given"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView22"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView10"
+                        android:layout_alignBottom="@+id/monday"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -399,7 +391,7 @@
                         android:id="@+id/textView10"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                 </RelativeLayout>
 
@@ -411,7 +403,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Treciadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#34e67e22">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -422,14 +414,15 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Not given"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView24"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView11"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -440,7 +433,7 @@
                         android:id="@+id/textView11"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                 </RelativeLayout>
 
@@ -452,7 +445,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Ketvirtadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#43d35400">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -463,14 +456,15 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Not given"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView26"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView12"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -481,7 +475,7 @@
                         android:id="@+id/textView12"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                 </RelativeLayout>
 
@@ -493,7 +487,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Penktadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#34e67e22">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -504,14 +498,15 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Not given"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView28"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView13"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -522,7 +517,7 @@
                         android:id="@+id/textView13"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                 </RelativeLayout>
 
@@ -534,7 +529,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/Sestadienis"
                     android:layout_marginBottom="5dp"
-                    android:background="#43d35400">
+                    android:background="#ffffff">
 
                     <EditText
                         android:layout_width="fill_parent"
@@ -545,14 +540,15 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Not given"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView30"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView14"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -563,7 +559,7 @@
                         android:id="@+id/textView14"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                 </RelativeLayout>
 
@@ -574,7 +570,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="5dp"
                     android:id="@+id/Sekmadienis"
-                    android:background="#34e67e22"
+                    android:background="#ffffff"
                     android:layout_marginBottom="5dp">
 
                     <EditText
@@ -586,14 +582,15 @@
                         android:layout_centerHorizontal="true"
                         android:background="#00ffffff"
                         android:hint="Not given"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:textSize="13dp" />
 
                     <ImageView
                         android:layout_width="300dp"
                         android:layout_height="1dp"
                         android:id="@+id/imageView32"
                         android:background="#9c8b8b8b"
-                        android:layout_below="@+id/textView15"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
 
                     <TextView
@@ -604,147 +601,9 @@
                         android:id="@+id/textView15"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:textSize="15dp" />
+                        android:textSize="14dp" />
 
                 </RelativeLayout>
-
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="4dp"
-                android:id="@+id/imageView34"
-                android:background="#ca000000"
-                android:layout_below="@+id/background_picture"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" >
-
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView21"
-                    android:background="#9c8b8b8b"
-                    android:layout_below="@+id/textView16"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Contact information"
-                    android:id="@+id/textView16"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/number"
-                    android:gravity="left|center"
-                    android:hint="No phone number"
-                    android:layout_below="@+id/profile_mail"
-                    android:background="#00ffffff"
-                    android:layout_centerVertical="true"
-                    android:textStyle="italic"
-                    android:editable="false"
-                    android:layout_marginTop="15dp"
-                    android:paddingStart="10dp"
-                    android:layout_alignEnd="@+id/profile_mail"
-                    android:layout_alignStart="@+id/profile_mail" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/profile_mail"
-                    android:editable="false"
-                    android:hint="E-mail"
-                    android:background="#00ffffff"
-                    android:textStyle="italic"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:paddingStart="10dp"
-                    android:layout_alignBottom="@+id/imageView23"
-                    android:layout_toEndOf="@+id/imageView23" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:id="@+id/website"
-                    android:layout_below="@+id/number"
-                    android:background="#00ffffff"
-                    android:layout_centerVertical="true"
-                    android:textStyle="italic"
-                    android:layout_marginTop="15dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:paddingStart="10dp"
-                    android:gravity="left"
-                    android:layout_alignStart="@+id/number"
-                    android:hint="No website" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView23"
-                    android:src="@drawable/mail"
-                    android:layout_below="@+id/imageView21"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginLeft="5dp" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView25"
-                    android:background="#9c8b8b8b"
-                    android:layout_below="@+id/profile_mail"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView27"
-                    android:src="@drawable/phone_icon"
-                    android:layout_alignTop="@+id/imageView25"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp" />
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/imageView29"
-                    android:background="#9c8b8b8b"
-                    android:layout_below="@+id/number"
-                    android:layout_centerHorizontal="true" />
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:id="@+id/imageView31"
-                    android:src="@drawable/website_icon"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignBottom="@+id/website"
-                    android:layout_toStartOf="@+id/website" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1" >
 
             </RelativeLayout>
 
@@ -762,19 +621,14 @@
 
 </ScrollView>
 
-    <android.support.v7.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LOCATE"
-        android:id="@+id/locate"
-        android:onClick="locate"
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/find_truck"
+        android:layout_margin="15dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:background="#CC1D1D"
-        android:alpha="0.85"
-        android:textSize="21dp"
-        android:textColor="#ffffff" />
-
-
+        android:layout_alignParentRight="true"
+        android:src="@drawable/find_truck"
+        android:textSize="18dp"
+        android:textColor="#FFFFFF" />
 </RelativeLayout>
