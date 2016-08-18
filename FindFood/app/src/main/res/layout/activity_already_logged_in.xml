@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
+    android:background="#DD4337"
     android:layout_height="fill_parent"
     tools:context="com.example.benas.findfood.AlreadyLoggedIn"
     >
@@ -10,13 +11,16 @@
 
 
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
     android:layout_width="fill_parent"
+
     android:layout_height="fill_parent"
+        android:isScrollContainer="false"
         android:id="@+id/profile_scrollview">
 
         <LinearLayout
             android:orientation="vertical"
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffffff">
@@ -708,7 +712,7 @@
                 android:alpha="0" />
 
         </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
 
     <ImageView
         android:layout_width="60dp"

@@ -7,16 +7,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
 import android.util.Log;
+import android.util.TypedValue;
 
 /**
  * Created by Benas on 8/14/2016.
  */
 public class CheckingUtils {
+
+    //Converting pixels to dp
+    public static float convertPixelsToDp(float px, Context context){
+        Resources resources = context.getResources();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, resources.getDisplayMetrics());
+
+    }
 
   //Scaling bitmaps
     public static Bitmap scaleBitmap(Bitmap bm) {

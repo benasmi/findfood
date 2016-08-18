@@ -17,19 +17,23 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.ToggleButton;
 
@@ -47,7 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
+public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
 
 
     //Profile widgets
@@ -71,7 +75,9 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
     private Context context;
     private TabActivityLoader loader;
     private ImageView save_button;
-    private ScrollView profile_scrollview;
+    private NestedScrollView profile_scrollview;
+
+
 
     //Background photos
     private JSONArray jsonArrayExtBackground;
@@ -93,6 +99,8 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
     //Crediantials from sharedPreferences
     private String username;
     private String password;
+
+    public static boolean shouldScroll = true;
 
 
 
@@ -125,7 +133,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
         profile_sunday = (EditText) rootView.findViewById(R.id.profile_sunday);
         profile_background_photo = (ImageView) rootView.findViewById(R.id.background_picture);
         save_button = (ImageView) rootView.findViewById(R.id.save_button);
-        profile_scrollview = (ScrollView) rootView.findViewById(R.id.profile_scrollview);
+        profile_scrollview = (NestedScrollView) rootView.findViewById(R.id.profile_scrollview);
 
         //Markers
         butcher_marker = (ImageView) rootView.findViewById(R.id.butcher_marker);
@@ -181,6 +189,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
 
              new FetchUserData(username).execute();
 
+
         //Starting background photo picker intent
         profile_background_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,24 +209,39 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment {
         });
 
 
-        profile_scrollview.setOnTouchListener(new View.OnTouchListener() {
-            float startingY;
-            float dy;
+
+        profile_scrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+            int startingY = profile_scrollview.getScrollY();
+            boolean isShrinked;
+            private int expandedY = (int) CheckingUtils.convertPixelsToDp(50, getActivity());
+            private int shrinkedY = 0;
+            int dy;
+
+
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+            public void onScrollChanged() {
 
-                if(dy>20 ){
-                    TabActivityLoader.tabLayout.setVisibility(View.INVISIBLE);
-                    startingY = motionEvent.getY();
-                }if(dy<-5){
+                if (AlreadyLoggedIn.shouldScroll) {
 
-                    startingY = motionEvent.getY();
-                    TabActivityLoader.tabLayout.setVisibility(View.VISIBLE);
+                    dy = expandedY - profile_scrollview.getScrollY() - startingY;
+
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) TabActivityLoader.tab_relative_layout.getLayoutParams();
+
+
+                    if (dy <= 0) {
+                        params.height = 0;
+                        dy = 0;
+                    } else {
+                        params.height = dy;
+                    }
+                    if (dy > expandedY) {
+                        dy = expandedY;
+                    }
+                    TabActivityLoader.tab_relative_layout.setLayoutParams(params);
+
                 }
-                dy = motionEvent.getY() - startingY;
-
-                Log.i("TEST", "Starting Y: " + String.valueOf(startingY) + ", " + "dY: " + dy);
-                return false;
             }
         });
         return rootView;

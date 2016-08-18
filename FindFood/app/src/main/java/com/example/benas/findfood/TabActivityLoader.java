@@ -20,10 +20,12 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 
 public class TabActivityLoader extends AppCompatActivity {
     public static TabLayout tabLayout;
+    public static RelativeLayout tab_relative_layout;
     private ViewPager viewPager;
     public static boolean isChecked;
     public Menu menuItem;
@@ -35,12 +37,12 @@ public class TabActivityLoader extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_activity_loader);
-
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitleTextColor(Color.parseColor("#ecf0f1"));
         setSupportActionBar(myToolbar);
 
         tabLayout = (TabLayout) findViewById(R.id.my_tab_layout);
+        tab_relative_layout = (RelativeLayout) findViewById(R.id.tab_layout);
 
         sharedPreferences = getSharedPreferences("DataPrefs",MODE_PRIVATE);
 
@@ -48,8 +50,47 @@ public class TabActivityLoader extends AppCompatActivity {
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), getApplicationContext()));
         viewPager.getCurrentItem();
 
+
+
         tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+
+
+                if(tab.getPosition() == 0) {
+                    AlreadyLoggedIn.shouldScroll = false;
+                }else{
+                    AlreadyLoggedIn.shouldScroll = true;
+                }
+
+                if(tab.getPosition() == 0) {
+                    ResizeAnimation resizeAnim = new ResizeAnimation(
+                            tab_relative_layout,
+                            (int) CheckingUtils.convertPixelsToDp(50, TabActivityLoader.this),
+                            tab_relative_layout.getHeight()
+                    );
+
+                    resizeAnim.setDuration(20);
+
+                    tab_relative_layout.startAnimation(resizeAnim);
+
+                }
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+        });
 
 
     }
