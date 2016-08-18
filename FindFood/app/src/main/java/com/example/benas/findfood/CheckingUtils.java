@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
@@ -70,6 +71,11 @@ public class CheckingUtils {
 
         return progressDialog;
     }
+    public static boolean isGpsEnabled(Context context){
+        LocationManager mlocManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
 
     //No gps dialog
     public static void buildAlertMessageNoGps(String message,final Context context) {

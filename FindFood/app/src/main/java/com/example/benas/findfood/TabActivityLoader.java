@@ -72,16 +72,8 @@ public class TabActivityLoader extends AppCompatActivity {
                 }
 
                 if(tab.getPosition() == 0) {
-                    ResizeAnimation resizeAnim = new ResizeAnimation(
-                            tab_relative_layout,
-                            (int) CheckingUtils.convertPixelsToDp(50, TabActivityLoader.this),
-                            tab_relative_layout.getHeight()
-                    );
-
-                    resizeAnim.setDuration(20);
-
-                    tab_relative_layout.startAnimation(resizeAnim);
-
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) TabActivityLoader.tab_relative_layout.getLayoutParams();
+                    params.topMargin = (int) CheckingUtils.convertPixelsToDp(50,TabActivityLoader.this);
                 }
 
             }
@@ -131,7 +123,8 @@ public class TabActivityLoader extends AppCompatActivity {
                     CheckingUtils.createErrorBox("You need internet connection to do that",TabActivityLoader.this);
                     return false;
                 } else {
-                    menuItem.setChecked(menuItem.isChecked() ? false : true);
+                    menuItem.setChecked(!menuItem.isChecked());
+                    isChecked = menuItem.isChecked();
                     CheckingUtils.createErrorBox("Don't forget to change status, after you finish your work", TabActivityLoader.this);
                     new ServerManager(TabActivityLoader.this).execute("CHANGE_IS_WORKING", menuItem.isChecked() ? "1" : "0", username, password);
                 }

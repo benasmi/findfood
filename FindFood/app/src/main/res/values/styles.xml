@@ -24,11 +24,11 @@
 
     <style name="MyAlertDialogStyle" parent="Base.V7.Theme.AppCompat.Dialog">
         <!-- Used for the buttons -->
-        <item name="colorAccent">#d9d9d9</item>
+        <item name="colorAccent">#1b1b1b</item>
         <!-- Used for the title and text -->
-        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">#8f8f8f</item>
         <!-- Used for the background -->
-        <item name="android:background">#B53021</item>
+        <item name="android:background">#ffffff</item>
     </style>
 
     <style name="AppThemeBar" parent="Theme.AppCompat.Light.DarkActionBar">

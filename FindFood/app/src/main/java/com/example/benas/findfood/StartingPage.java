@@ -25,8 +25,7 @@ public class StartingPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         overridePendingTransition(R.anim.push_right_in, R.anim.push_rigth_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting_page);
@@ -54,7 +53,7 @@ public class StartingPage extends AppCompatActivity {
         boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if (enabled) {
-            startActivity(new Intent(this, TrucksMap.class));
+            startActivity(new Intent(this, TrucksMapBeggining.class));
         } else {
             CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to enable it?", StartingPage.this);
         }

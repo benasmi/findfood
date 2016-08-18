@@ -1,37 +1,21 @@
 package com.example.benas.findfood;
 
-import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.provider.SyncStateContract;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -46,10 +30,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-public class TrucksMap extends android.support.v4.app.Fragment {
-
+public class TrucksMapBeggining extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private double longtitude;
@@ -61,12 +43,16 @@ public class TrucksMap extends android.support.v4.app.Fragment {
     private double myLatitude;
     private ArrayList<InfoHolder> markerList = new ArrayList<InfoHolder>();
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-        View root_view = inflater.inflate(R.layout.activity_trucks_map, container, false);
 
-        refresh_image = (ImageView) root_view.findViewById(R.id.refresh_map);
+
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_trucks_map_beggining);
+
+        refresh_image = (ImageView) findViewById(R.id.refresh_map1);
 
         refresh_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,18 +61,16 @@ public class TrucksMap extends android.support.v4.app.Fragment {
             }
         });
 
-
-        return root_view;
-
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-
-        super.onViewCreated(view, savedInstanceState);
-        mGoogleMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
 
         mGoogleMap.setMyLocationEnabled(true);
 
@@ -94,36 +78,35 @@ public class TrucksMap extends android.support.v4.app.Fragment {
             @Override
             public boolean onMyLocationButtonClick() {
 
-                if (CheckingUtils.isGpsEnabled(getActivity())) {
+                if (CheckingUtils.isGpsEnabled(TrucksMapBeggining.this)) {
                     return false;
                 } else {
-                    CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to turn it on?", getActivity());
+                    CheckingUtils.buildAlertMessageNoGps("You need GPS to do it, do you want to turn it on?", TrucksMapBeggining.this);
                 }
                 return false;
 
 
             }
         });
-
-
         if (mGoogleMap != null) {
-            view = getActivity().getLayoutInflater().inflate(R.layout.marker_info, null);
+            View view = getLayoutInflater().inflate(R.layout.marker_info, null);
             mGoogleMap.setInfoWindowAdapter(new InfoWindowClass(view));
-        }
 
+
+        }
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if(!CheckingUtils.isGpsEnabled(getActivity())){
-                    CheckingUtils.buildAlertMessageNoGps("You need to enable your GPS to visit profile, do you want to enable it ?", getActivity());
+                if (!CheckingUtils.isGpsEnabled(TrucksMapBeggining.this)) {
+                    CheckingUtils.buildAlertMessageNoGps("You need to enable your GPS to visit profile, do you want to enable it ?", TrucksMapBeggining.this);
                     return;
                 }
 
-                if (!CheckingUtils.isNetworkConnected(getActivity())) {
-                    CheckingUtils.createErrorBox("You need internet connection to do that", getActivity());
+                if (!CheckingUtils.isNetworkConnected(TrucksMapBeggining.this)) {
+                    CheckingUtils.createErrorBox("You need internet connection to do that", TrucksMapBeggining.this);
                     return;
                 } else {
-                    Intent i = new Intent(getActivity(), ProfileActivity.class);
+                    Intent i = new Intent(TrucksMapBeggining.this, ProfileActivity.class);
                     for (int z = 0; z < markerList.size(); z++) {
                         String truck = markerList.get(z).getMarker().getTitle();
                         if (marker.getTitle().equals(truck)) {
@@ -141,8 +124,7 @@ public class TrucksMap extends android.support.v4.app.Fragment {
             }
         });
 
-
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         if (location != null) {
@@ -155,8 +137,6 @@ public class TrucksMap extends android.support.v4.app.Fragment {
         new fetcher().execute();
 
     }
-
-
     public void updateCoords() {
         markerList.clear();
         mGoogleMap.clear();

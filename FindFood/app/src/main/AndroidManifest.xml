@@ -56,17 +56,12 @@
             android:screenOrientation="portrait"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".TrucksMap"
-            android:label="@string/title_activity_trucks_map"
-            android:largeHeap="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AlreadyLoggedIn"
-            android:largeHeap="true"
-            android:launchMode="singleTop"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
+       <activity android:name=".TrucksMapBeggining"
+           android:label="Map"
+           android:screenOrientation="portrait"
+           ></activity>
+
+
         <activity
             android:name=".ProfileActivity"
             android:largeHeap="true"

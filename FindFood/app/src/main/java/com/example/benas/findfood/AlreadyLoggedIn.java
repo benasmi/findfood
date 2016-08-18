@@ -230,11 +230,12 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) TabActivityLoader.tab_relative_layout.getLayoutParams();
 
 
+
                     if (dy <= 0) {
-                        params.height = 0;
+                        params.topMargin = 0;
                         dy = 0;
                     } else {
-                        params.height = dy;
+                        params.topMargin = dy;
                     }
                     if (dy > expandedY) {
                         dy = expandedY;
