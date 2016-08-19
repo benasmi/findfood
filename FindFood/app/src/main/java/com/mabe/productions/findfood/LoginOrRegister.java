@@ -1,4 +1,4 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.mabe.productions.findfood.R;
 
 public class LoginOrRegister extends AppCompatActivity {
 

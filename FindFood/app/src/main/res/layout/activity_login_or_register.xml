@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.benas.findfood.LoginOrRegister"
+    tools:context="com.mabe.productions.findfood.LoginOrRegister"
     android:background="#E43F3F">
 
     <TextView
@@ -23,6 +23,8 @@
         android:layout_height="45dp"
         android:textColorHint="#FFFFFF"
         android:id="@+id/username_login"
+        android:drawableLeft="@drawable/user_icon"
+        android:drawablePadding="6dp"
         android:layout_marginTop="43dp"
         android:singleLine="true"
         android:layout_below="@+id/useless"
@@ -40,6 +42,8 @@
         android:layout_height="45dp"
         android:singleLine="true"
         android:id="@+id/password_login"
+        android:drawableLeft="@drawable/lock_icon"
+        android:drawablePadding="6dp"
         android:hint="Password"
         android:background="@drawable/edit_borders"
         android:password="true"

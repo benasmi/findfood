@@ -1,4 +1,4 @@
-package com.example.benas.findfood;
+package com.mabe.benas.findfood;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

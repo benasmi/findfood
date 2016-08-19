@@ -1,9 +1,9 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mabe.productions.findfood.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 

@@ -1,41 +1,28 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.ToggleButton;
+
+import com.mabe.productions.findfood.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -308,15 +295,15 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
 
 
         if (description.isEmpty()) {
-            profile_description.setError("Fill this field to save");
+            CheckingUtils.createErrorBox("Please write a description about your truck!", getActivity());
             return;
         }
         if (slogan.isEmpty()) {
-            profile_slogan.setError("Fill this field to save");
+            CheckingUtils.createErrorBox("Please write a slogan for your truck!", getActivity());
             return;
         }
         if (truck_name.isEmpty()) {
-            profile_truck_names.setError("Fill this field to save");
+            CheckingUtils.createErrorBox("Please write a truck name!", getActivity());
             return;
         }
 

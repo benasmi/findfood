@@ -1,4 +1,4 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.mabe.productions.findfood.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

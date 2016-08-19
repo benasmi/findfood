@@ -1,20 +1,16 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.mabe.productions.findfood.R;
 
 public class StartingPage extends AppCompatActivity {
 

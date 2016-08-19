@@ -1,6 +1,5 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**

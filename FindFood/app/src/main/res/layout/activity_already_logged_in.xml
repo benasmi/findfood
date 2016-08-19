@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:background="#DD4337"
     android:layout_height="fill_parent"
-    tools:context="com.example.benas.findfood.AlreadyLoggedIn">
+    tools:context="com.mabe.productions.findfood.AlreadyLoggedIn">
 
 
 
@@ -55,36 +55,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:background="#50ffffff" />
+                    android:background="#81ffffff" />
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/truck_name"
-                    android:background="#001a1a1a"
-                    android:hint="Truck name"
-                    android:textStyle="bold"
-                    android:textSize="25dp"
-                    android:textColor="#000000"
-                    android:textColorHint="#000000"
-                    android:maxLength="32"
-                    android:text="Martyno kebabinė"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true" />
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/profile_slogan"
-                    android:background="#00ffffff"
-                    android:hint="Your slogan"
-                    android:textColor="#000000"
-                    android:textSize="15dp"
-                    android:textColorHint="#000000"
-                    android:maxLength="40"
-                    android:text="Mūsų kebabai - tai geriausi rajone"
-                    android:layout_below="@+id/truck_name"
-                    android:layout_centerHorizontal="true" />
 
                 <EditText
                     android:drawableLeft="@drawable/phone_icon"
@@ -129,12 +102,43 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:id="@+id/imageView5"
-                    android:background="#50ffffff"
+                    android:background="#81ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
+
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_slogan"
+                    android:background="#00ffffff"
+                    android:hint="Your slogan"
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:textColorHint="#000000"
+                    android:maxLength="40"
+                    android:text="Mūsų kebabai - tai geriausi rajone"
+                    android:layout_below="@+id/truck_name"
+                    android:layout_centerHorizontal="true" />
+
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/truck_name"
+                    android:background="#001a1a1a"
+                    android:hint="Truck name"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000"
+                    android:maxLength="32"
+                    android:text="Martyno kebabinė"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -238,7 +242,6 @@
                     android:layout_height="6dp"
                     android:id="@+id/imageView7"
                     android:background="#ca000000"
-                    android:layout_below="@+id/background_picture"
                     android:layout_alignParentStart="true"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"

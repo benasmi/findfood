@@ -1,4 +1,4 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.mabe.productions.findfood.R;
 
 public class ForgotPasswordOrUsername extends AppCompatActivity {
 

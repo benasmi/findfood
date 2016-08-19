@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.benas.findfood">
+    package="com.mabe.productions.findfood">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartingPage"
+        <activity android:name="com.mabe.productions.findfood.StartingPage"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,21 +26,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginOrRegister"
+            android:name="com.mabe.productions.findfood.LoginOrRegister"
             android:largeHeap="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Registration"
-            android:largeHeap="true"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ActivateAccount"
+            android:name="com.mabe.productions.findfood.Registration"
             android:largeHeap="true"
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TabActivityLoader"
+            android:name="com.mabe.productions.findfood.ActivateAccount"
+            android:largeHeap="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mabe.productions.findfood.TabActivityLoader"
             android:largeHeap="true"
             android:screenOrientation="portrait" />
         <!--
@@ -56,18 +56,18 @@
             android:screenOrientation="portrait"
             android:value="@string/google_maps_key" />
 
-       <activity android:name=".TrucksMapBeggining"
+       <activity android:name="com.mabe.productions.findfood.TrucksMapBeggining"
            android:label="Map"
            android:screenOrientation="portrait"
            ></activity>
 
 
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.mabe.productions.findfood.ProfileActivity"
             android:largeHeap="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ForgotPasswordOrUsername"></activity>
+        <activity android:name="com.mabe.productions.findfood.ForgotPasswordOrUsername"></activity>
     </application>
 
 </manifest>

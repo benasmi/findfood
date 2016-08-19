@@ -1,4 +1,4 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,10 +11,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
+
+import com.mabe.productions.findfood.R;
 
 /**
  * Created by Benas on 8/14/2016.
@@ -143,7 +143,7 @@ public class CheckingUtils {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= 21) {
+
                 final SharedPreferences sharedPreferences = context.getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
                 new AlertDialog.Builder(context)
                         .setMessage("Do you want to logout?")
@@ -169,7 +169,7 @@ public class CheckingUtils {
 
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
-            }
+
         }
     }
     public static void dialogBoxForReport(String message, final Context context, final String intent_truck_name){

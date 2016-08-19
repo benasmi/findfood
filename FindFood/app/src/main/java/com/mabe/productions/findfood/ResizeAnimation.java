@@ -1,4 +1,4 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.view.View;
 import android.view.animation.Animation;

@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.benas.findfood.StartingPage"
+    tools:context="com.mabe.productions.findfood.StartingPage"
     android:background="#E43F3F">
 
     <android.support.v7.widget.AppCompatButton
         android:layout_width="350dp"
         android:layout_height="80dp"
-        android:text="Find Food!"
+        android:text="Find street food"
         android:id="@+id/find"
         android:onClick="findFood"
         android:textSize="25dp"
@@ -22,7 +22,7 @@
     <android.support.v7.widget.AppCompatButton
         android:layout_width="350dp"
         android:layout_height="80dp"
-        android:text="Truck Owner ?"
+        android:text="Truck Owner"
         android:id="@+id/loginOrRegister"
         android:onClick="loginOrRegister"
         android:textSize="25dp"
@@ -32,17 +32,16 @@
         android:layout_below="@+id/find"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find Food"
+        android:text="Street food"
         android:id="@+id/logo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="73dp"
         android:textColor="#ffffff"
-        android:textSize="60dp" />
+        android:textSize="45dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,5 +52,30 @@
         android:layout_centerHorizontal="true"
         android:textSize="25dp"
         android:textColor="#ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textView3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="v1.0"
+        android:textSize="11dp"
+        android:textColor="@color/background_material_light"
+        android:layout_margin="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textView5"
+        android:text="M&amp;B Development"
+        android:textSize="11dp"
+        android:textColor="@color/background_material_light"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="3dp"
+        android:textIsSelectable="false" />
 
 </RelativeLayout>

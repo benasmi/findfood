@@ -1,22 +1,17 @@
-package com.example.benas.findfood;
+package com.mabe.productions.findfood;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,7 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ToggleButton;
+
+import com.mabe.productions.findfood.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
