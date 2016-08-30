@@ -21,6 +21,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mabe.productions.findfood.R;
 
@@ -55,6 +56,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
     private EditText profile_sunday;
     private EditText profile_menu;
     private EditText profile_slogan;
+
     private ImageView profile_background_photo;
     private int whichImage;
     private EditText profile_special_offers;
@@ -121,6 +123,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
         profile_background_photo = (ImageView) rootView.findViewById(R.id.background_picture);
         save_button = (ImageView) rootView.findViewById(R.id.save_button);
         profile_scrollview = (NestedScrollView) rootView.findViewById(R.id.profile_scrollview);
+
 
         //Markers
         butcher_marker = (ImageView) rootView.findViewById(R.id.butcher_marker);
@@ -232,6 +235,12 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
                 }
             }
         });
+
+
+
+
+
+
         return rootView;
     }
 

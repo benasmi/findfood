@@ -33,7 +33,7 @@
 
                 <ImageView
                     android:layout_width="fill_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="203dp"
                     android:background="#ffffff"
                     android:id="@+id/background_picture"
                     android:layout_alignParentTop="true"
@@ -55,7 +55,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:background="#81ffffff" />
+                    android:background="#69ffffff" />
 
 
 
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:id="@+id/imageView5"
-                    android:background="#81ffffff"
+                    android:background="#69ffffff"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />
@@ -122,7 +122,8 @@
                     android:maxLength="40"
                     android:text="Mūsų kebabai - tai geriausi rajone"
                     android:layout_below="@+id/truck_name"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center" />
 
 
                 <EditText
@@ -138,7 +139,21 @@
                     android:maxLength="32"
                     android:text="Martyno kebabinė"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="aspect ratio 1:2"
+                    android:id="@+id/textView16"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:textStyle="bold|italic"
+                    android:textSize="12dp"
+                    android:layout_marginRight="3dp" />
 
             </RelativeLayout>
 
@@ -718,7 +733,7 @@
                 android:layout_height="50dp"></RelativeLayout>
 
         </LinearLayout>
-    
+
 
 </android.support.v4.widget.NestedScrollView>
 
