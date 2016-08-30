@@ -100,10 +100,6 @@ public class TrucksMap extends android.support.v4.app.Fragment {
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if(!CheckingUtils.isGpsEnabled(getActivity())){
-                    CheckingUtils.buildAlertMessageNoGps("You need to enable your GPS to visit profile, do you want to enable it ?", getActivity());
-                    return;
-                }
 
                 if (!CheckingUtils.isNetworkConnected(getActivity())) {
                     CheckingUtils.createErrorBox("You need internet connection to do that", getActivity());
@@ -155,7 +151,7 @@ public class TrucksMap extends android.support.v4.app.Fragment {
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/fetchCoordinates.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/fetchCoordinates.php");
 
                 //Getting response
                 HttpResponse response = httpClient.execute(httpPost);

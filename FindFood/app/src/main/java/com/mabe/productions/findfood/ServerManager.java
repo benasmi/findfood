@@ -60,6 +60,8 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
     private SharedPreferences sharedPreferences;
     private String rememberPassword;
 
+    public static final String SERVER_ADDRESS = "http://findfood.ax.lt";
+
 
     public ServerManager(Context context) {
         this.context = context;
@@ -93,7 +95,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
 
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/register.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/register.php");
 
                 //JSON object.
                 JSONObject jsonObject = new JSONObject();
@@ -132,7 +134,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
                 rememberPassword = params[3];
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/login.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/login.php");
 
 
                 //JSON object.
@@ -165,7 +167,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/location.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/location.php");
 
 
                 //JSON object.
@@ -199,7 +201,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/activate.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/activate.php");
 
                 //JSON object.
                 JSONObject jsonObject = new JSONObject();
@@ -246,7 +248,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/updateProfile.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/updateProfile.php");
 
 
                 //JSON object.
@@ -299,7 +301,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
 
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/sendPicture.php");
+                HttpPost httpPost = new HttpPost( ServerManager.SERVER_ADDRESS + "/sendPicture.php");
 
                 //JSON object.
                 JSONObject jsonObject = new JSONObject();
@@ -332,7 +334,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
                 mail = params[1];
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/forgotPassword.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/forgotPassword.php");
 
                 //JSON object.
                 JSONObject jsonObject = new JSONObject();
@@ -362,7 +364,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/workingStatus.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/workingStatus.php");
 
                 //JSON object.
                 JSONObject jsonObject = new JSONObject();
@@ -393,7 +395,7 @@ public class ServerManager extends AsyncTask<String, Void, Void> {
 
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/report.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/report.php");
 
 
                 //JSON object.

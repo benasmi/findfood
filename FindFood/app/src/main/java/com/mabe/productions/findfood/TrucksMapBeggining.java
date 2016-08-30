@@ -98,10 +98,6 @@ public class TrucksMapBeggining extends FragmentActivity implements OnMapReadyCa
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if (!CheckingUtils.isGpsEnabled(TrucksMapBeggining.this)) {
-                    CheckingUtils.buildAlertMessageNoGps("You need to enable your GPS to visit profile, do you want to enable it ?", TrucksMapBeggining.this);
-                    return;
-                }
 
                 if (!CheckingUtils.isNetworkConnected(TrucksMapBeggining.this)) {
                     CheckingUtils.createErrorBox("You need internet connection to do that", TrucksMapBeggining.this);
@@ -150,7 +146,7 @@ public class TrucksMapBeggining extends FragmentActivity implements OnMapReadyCa
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/fetchCoordinates.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/fetchCoordinates.php");
 
                 //Getting response
                 HttpResponse response = httpClient.execute(httpPost);

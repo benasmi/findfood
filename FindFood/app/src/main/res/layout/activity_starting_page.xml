@@ -60,7 +60,7 @@
         android:id="@+id/textView3"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="v1.0"
+        android:text="v1.2"
         android:textSize="11dp"
         android:textColor="@color/background_material_light"
         android:layout_margin="3dp" />

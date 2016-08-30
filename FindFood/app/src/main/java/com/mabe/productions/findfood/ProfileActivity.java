@@ -1,6 +1,10 @@
 package com.mabe.productions.findfood;
 
 import android.graphics.Color;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 
 
@@ -57,16 +61,13 @@ public class ProfileActivity extends AppCompatActivity {
     private String intent_truck_name;
     private EditText menu;
 
-    //User coords
-    private double myLongtitude;
-    private double myLatitude;
-
     //Destination coords
     private double destinationLongtitude;
     private double destinationLatitude;
 
     private Toolbar myToolbar;
     private ImageView find_truck;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +94,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         new FetchUserData(intent_truck_name).execute();
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        myLongtitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLongitude();
-        myLatitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
 
 
         myToolbar = (Toolbar) findViewById(R.id.profile_toolbar);
@@ -133,18 +131,59 @@ public class ProfileActivity extends AppCompatActivity {
     public void locate() {
 
 
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (CheckingUtils.isGpsEnabled(this)) {
 
-        boolean enabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (enabled) {
-            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + myLatitude + "," + myLongtitude + "&daddr=" + destinationLatitude + "," + destinationLongtitude));
-            intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-            startActivity(intent);
-        } else {
-            CheckingUtils.buildAlertMessageNoGps("You need GPS to get path directions, do you want to turn it on?", ProfileActivity.this);
-        }
 
+                Criteria criteria = new Criteria();
+                criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                String provider = locationManager.getBestProvider(criteria, true);
+
+                LocationListener myLocationListener = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+
+                        double latitude = location.getLatitude();
+                        double longtitude = location.getLongitude();
+
+                        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + latitude + "," + longtitude + "&daddr=" + destinationLatitude + "," + destinationLongtitude));
+                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String provider) {
+
+                        double latitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLatitude();
+                        double longtitude = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER).getLongitude();
+
+                        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?" + "saddr=" + latitude + "," + longtitude + "&daddr=" + destinationLatitude + "," + destinationLongtitude));
+                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String provider) {
+
+                    }
+                };
+
+                locationManager.requestSingleUpdate(provider, myLocationListener,Looper.myLooper());
+
+
+
+
+
+
+            } else {
+                CheckingUtils.buildAlertMessageNoGps("You need GPS to get path directions, do you want to turn it on?", ProfileActivity.this);
+            }
 
     }
 
@@ -194,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity {
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/fetchProfileInfoForClient.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/fetchProfileInfoForClient.php");
 
 
                 //JSON object.
@@ -216,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity {
                 userSchedule = jsonArray.getJSONObject(1);
 
 
-                String link_background_photo = "http://64.137.182.232/pictures/" + userInfo.getString("username") + "." + userInfo.getString("ext_profile");
+                String link_background_photo = ServerManager.SERVER_ADDRESS + "/pictures/" + userInfo.getString("username") + "." + userInfo.getString("ext_profile");
                 profile_pic = getBitmapFromURL(link_background_photo);
 
 

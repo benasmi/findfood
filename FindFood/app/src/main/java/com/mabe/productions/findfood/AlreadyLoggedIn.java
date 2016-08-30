@@ -413,7 +413,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/fetchProfileInfo.php");
+                HttpPost httpPost = new HttpPost(ServerManager.SERVER_ADDRESS + "/fetchProfileInfo.php");
 
 
                 //JSON object.
@@ -437,7 +437,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
 
-                String link_background_photo = "http://64.137.182.232/pictures/" + username + "." + userInfo.getString("ext_profile");
+                String link_background_photo = ServerManager.SERVER_ADDRESS + "/pictures/" + username + "." + userInfo.getString("ext_profile");
 
 
                 Log.i("TEST", link_background_photo);
@@ -564,7 +564,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
             try {
                 //Connect to mysql.
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost("http://64.137.182.232/ext_profile_background.php");
+                HttpPost httpPost = new HttpPost( ServerManager.SERVER_ADDRESS + "/ext_profile_background.php");
 
 
                 //JSON object.
@@ -588,7 +588,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DataPrefs", Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
 
-                String link_background_photo = "http://64.137.182.232/pictures/" + username + "." + jsonObjectExtBackground.getString("ext_profile");
+                String link_background_photo = ServerManager.SERVER_ADDRESS + "/pictures/" + username + "." + jsonObjectExtBackground.getString("ext_profile");
                 Log.i("TEST", link_background_photo);
 
 
