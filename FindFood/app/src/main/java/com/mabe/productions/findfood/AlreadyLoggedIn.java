@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.GeoDataApi;
 import com.mabe.productions.findfood.R;
 
 import org.apache.http.HttpResponse;
@@ -178,6 +179,7 @@ public class AlreadyLoggedIn extends android.support.v4.app.Fragment{
         password = sharedPreferences.getString("password", null);
 
              new FetchUserData(username).execute();
+
 
 
         //Starting background photo picker intent

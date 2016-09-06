@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
 import com.mabe.productions.findfood.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -133,12 +136,14 @@ public class TrucksMapBeggining extends FragmentActivity implements OnMapReadyCa
 
         new fetcher().execute();
 
+
     }
     public void updateCoords() {
         markerList.clear();
         mGoogleMap.clear();
         new fetcher().execute();
     }
+
 
     class fetcher extends AsyncTask<Void, Void, Void> {
         @Override
